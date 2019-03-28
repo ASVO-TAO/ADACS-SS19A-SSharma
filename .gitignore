@@ -75,8 +75,9 @@ coverage.xml
 *.pot
 
 # Django stuff:
+galaxiaui/logs/*
 *.log
-local_settings.py
+local.py
 db.sqlite3
 
 # Flask stuff:

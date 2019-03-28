@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'galaxiaui.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
     }
 }
 
@@ -100,6 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -118,3 +119,66 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s %(levelname)s (%(name)s): %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'galaxiaui.log'),
+            'formatter': 'standard',
+            'when': 'midnight',
+            'interval': 1,
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'mail_admins', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'galaxiaweb': {
+            'handlers': ['file', 'mail_admins', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django_hpc_job_controller': {
+            'handlers': ['file', 'mail_admins', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
+ROOT_SUBDIRECTORY_PATH = ''
+
+SITE_URL = ''
+
+HPC_JOB_CLASS = 'galaxiaweb.models.Job'
