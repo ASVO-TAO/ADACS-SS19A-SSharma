@@ -5,12 +5,14 @@ from ..models import JobParameter
 
 FIELDS = [
     'model_file',
+    'photo_sys_1',
     'apparent_magnitude_min',
     'apparent_magnitude_max',
 ]
 
 LABELS = {
     'model_file': _('Model File'),
+    'photo_sys_1': _('PhotoSys 1'),
     'apparent_magnitude_min': _('Minimum Apparent Magnitude'),
     'apparent_magnitude_max': _('Maximum Apparent Magnitude'),
 

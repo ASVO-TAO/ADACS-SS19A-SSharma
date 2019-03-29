@@ -6,4 +6,4 @@ from .models import JobParameter
 
 @admin.register(JobParameter)
 class JobParameter(admin.ModelAdmin):
-    list_display = ('model_file', 'apparent_magnitude_min', 'apparent_magnitude_max')
+    list_display = ('model_file', 'photo_sys_1', 'apparent_magnitude_min', 'apparent_magnitude_max')
