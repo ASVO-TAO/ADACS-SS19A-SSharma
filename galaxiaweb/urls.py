@@ -11,7 +11,7 @@ from .views import common, job
 urlpatterns = [
     path('', common.index, name='index'),
     path('new_job/', job.new_job, name='new_job'),
-    # path('about/', common.about, name='about'),
+    path('about/', common.about, name='about'),
     # path('new_job/', login_required(job.new_job), name='new_job'),
     # path('edit_job/<job_id>/', login_required(jobs.edit_job), name='edit_job'),
     # path('cancel_job/<job_id>/', login_required(jobs.cancel_job), name='cancel_job'),
