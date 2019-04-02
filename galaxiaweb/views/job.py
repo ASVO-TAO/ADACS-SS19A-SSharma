@@ -15,7 +15,5 @@ def new_job(request):
     return render(
         request,
         "galaxiaweb/job/new_job.html",
-        {
-            'job_parameter_form': JobParameterForm(),
-        }
+        {'job_parameter_form': JobParameterForm()}
     )

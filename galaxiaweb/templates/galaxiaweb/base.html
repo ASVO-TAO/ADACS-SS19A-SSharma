@@ -23,14 +23,23 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
           integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-
+    <link rel="stylesheet" href="{% static 'style/styles.css' %}"/>
+    {% block additional_styles %}
+    {% endblock additional_styles %}
 
     <link href="https://fonts.googleapis.com/css?family=Arvo:400,700%7CSlabo+27px&effect=anaglyph" rel="stylesheet">
 </head>
 <body>
-<div>
-    {% block content %}
-    {% endblock %}
+
+<div class="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col col-12">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
