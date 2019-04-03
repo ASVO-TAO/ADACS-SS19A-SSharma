@@ -13,7 +13,7 @@ def index(request):
     """
     return render(
         request,
-        "galaxiaweb/welcome.html",
+        "galaxiaweb/galaxia.html",
     )
 
 

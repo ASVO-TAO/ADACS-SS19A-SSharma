@@ -5,12 +5,13 @@ Distributed under the MIT License. See LICENSE.txt for more info.
 from django.urls import path
 #from django.contrib.auth.decorators import login_required
 
-from .views import common
-#from .views.job import job, jobs
+from .views import common, job
+
 
 urlpatterns = [
     path('', common.index, name='index'),
-    # path('about/', common.about, name='about'),
+    path('new_job/', job.new_job, name='new_job'),
+    path('about/', common.about, name='about'),
     # path('new_job/', login_required(job.new_job), name='new_job'),
     # path('edit_job/<job_id>/', login_required(jobs.edit_job), name='edit_job'),
     # path('cancel_job/<job_id>/', login_required(jobs.cancel_job), name='cancel_job'),
