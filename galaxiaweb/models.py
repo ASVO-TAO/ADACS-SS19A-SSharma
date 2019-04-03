@@ -37,6 +37,10 @@ class JobParameter(models.Model):
 
     photo_sys_2 = models.CharField(choices=PHOTO_SYS_2_CHOICES, max_length=55, blank=False, null=False, default=GAIADR2_TMASS)
 
+    #photo_sys_extra = photo_sys_1+photo_sys_2
+
+    colour_limit_min = models.FloatField(blank=False, null=False, default=-100)
+    colour_limit_max = models.FloatField(blank=False, null=False, default=100)
 
 
 
