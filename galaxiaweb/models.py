@@ -42,6 +42,7 @@ class JobParameter(models.Model):
     colour_limit_min = models.FloatField(blank=False, null=False, default=-100)
     colour_limit_max = models.FloatField(blank=False, null=False, default=100)
 
-
+    absolute_magnitude_min = models.FloatField(blank=False, null=False, default=-100.0)
+    absolute_magnitude_max = models.FloatField(blank=False, null=False, default=100.0)
 
 
