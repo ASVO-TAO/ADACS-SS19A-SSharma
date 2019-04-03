@@ -9,6 +9,10 @@ FIELDS = [
     'photo_sys_2',
     'apparent_magnitude_min',
     'apparent_magnitude_max',
+    'absolute_magnitude_min',
+    'absolute_magnitude_max',
+    'colour_limit_min',
+    'colour_limit_max',
 ]
 
 LABELS = {
@@ -17,7 +21,8 @@ LABELS = {
     'photo_sys_2': _('PotoSys 2'),
     'apparent_magnitude_min': _('Minimum Apparent Magnitude'),
     'apparent_magnitude_max': _('Maximum Apparent Magnitude'),
-
+    'absolute_magnitude_min': _('Minimum Absolute Magnitude'),
+    'absolute_magnitude_max': _('Maximum Absolute Magnitude'),
 }
 
 class JobParameterForm(forms.ModelForm):
