@@ -23,7 +23,8 @@ DENIS_VALUE= ['denis_i','denis_j','denis_ks']
 TYCHO2 = 'TYCHO2'
 TYCHO2_VALUE = ['tycho_bt','tycho_vt']
 
-
+PLACEHOLDER1 = 'Placeholder'
+PLACEHOLDER1_VALUE = 'Placeholder'
 
 NAME_VALUES = dict()
 
@@ -40,4 +41,5 @@ NAME_VALUES.update({
     STROEMGREN: STROEMGREN_VALUE,
     DENIS: DENIS_VALUE,
     TYCHO2: TYCHO2_VALUE,
+    PLACEHOLDER1: PLACEHOLDER1_VALUE,
 })

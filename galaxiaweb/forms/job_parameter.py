@@ -11,6 +11,8 @@ FIELDS = [
     'apparent_magnitude_max',
     'absolute_magnitude_min',
     'absolute_magnitude_max',
+    'magnitude_name_1',
+    'magnitude_name_2',
     'colour_limit_min',
     'colour_limit_max',
 ]
@@ -23,6 +25,10 @@ LABELS = {
     'apparent_magnitude_max': _('Maximum Apparent Magnitude'),
     'absolute_magnitude_min': _('Minimum Absolute Magnitude'),
     'absolute_magnitude_max': _('Maximum Absolute Magnitude'),
+    'magnitude_name_1': _('Blue band for colour selection'),
+    'magnitude_name_2': _('Red band for colour selection'),
+    'colour_limit_min': _('Minimum Colour'),
+    'colour_limit_max': _('Maximum Colour'),
 }
 
 class JobParameterForm(forms.ModelForm):
