@@ -17,6 +17,11 @@ FIELDS = [
     'colour_limit_min',
     'colour_limit_max',
     'geometry_options',
+    'longitude',
+    'latitude',
+    'survey_area',
+    'sample_fraction',
+    'population_ID',
 ]
 
 LABELS = {
@@ -32,7 +37,12 @@ LABELS = {
     'magnitude_name_2': _('Red band for colour selection'),
     'colour_limit_min': _('Minimum Colour'),
     'colour_limit_max': _('Maximum Colour'),
-    'geometry_options': _('Survey Geometry')
+    'geometry_options': _('Survey Geometry'),
+    'longitude': _('Longitude [degrees]'),
+    'latitude': _('Latitude [degrees]'),
+    'survey_area': _('Survey Area [squared degrees]'),
+    'sample_fraction': _('Stellar Sampling Fraction'),
+    'population_ID': _('Population to generate')
 }
 
 class JobParameterForm(forms.ModelForm):
