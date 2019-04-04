@@ -22,6 +22,11 @@ DENIS='DENIS'
 DENIS_VALUE= ['denis_i','denis_j','denis_ks']
 TYCHO2 = 'TYCHO2'
 TYCHO2_VALUE = ['tycho_bt','tycho_vt']
+ALL_SKY = 'All Sky'
+ALL_SKY_VALUE = 0
+PATCH = 'Circular Patch'
+PATCH_VALUE = 1
+
 
 PLACEHOLDER1 = 'Placeholder'
 PLACEHOLDER1_VALUE = 'Placeholder'
@@ -41,5 +46,7 @@ NAME_VALUES.update({
     STROEMGREN: STROEMGREN_VALUE,
     DENIS: DENIS_VALUE,
     TYCHO2: TYCHO2_VALUE,
+    ALL_SKY: ALL_SKY_VALUE,
+    PATCH: PATCH_VALUE,
     PLACEHOLDER1: PLACEHOLDER1_VALUE,
 })

@@ -28,10 +28,17 @@ class JobParameter(models.Model):
 
     ]
 
+    GEOMETRY_OPTIONS =[
+        (ALL_SKY,ALL_SKY),
+        (PATCH,PATCH),
+    ]
+
     PLACEHOLDER = [(PLACEHOLDER1,PLACEHOLDER1)]
 
     model_file = models.CharField(choices=MODEL_FILE_CHOICES, max_length=55, blank=False, null=False, default=SHARMA_2019)
 
+    magnitude_name = models.CharField(choices=PLACEHOLDER, max_length=55, blank=False, null=False,
+                                        default=PLACEHOLDER1)
     apparent_magnitude_min = models.FloatField(blank=False, null=False, default=-100.0)
     apparent_magnitude_max = models.FloatField(blank=False, null=False, default=14.0)
 
@@ -51,3 +58,6 @@ class JobParameter(models.Model):
                                   default=PLACEHOLDER1)
     magnitude_name_2 = models.CharField(choices=PLACEHOLDER, max_length=55, blank=False, null=False,
                                         default=PLACEHOLDER1)
+
+    geometry_options = models.CharField(choices=GEOMETRY_OPTIONS, max_length=55, blank=False, null=False,
+                                        default=ALL_SKY)

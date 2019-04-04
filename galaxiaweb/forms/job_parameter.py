@@ -7,6 +7,7 @@ FIELDS = [
     'model_file',
     'photo_sys_1',
     'photo_sys_2',
+    'magnitude_name',
     'apparent_magnitude_min',
     'apparent_magnitude_max',
     'absolute_magnitude_min',
@@ -15,12 +16,14 @@ FIELDS = [
     'magnitude_name_2',
     'colour_limit_min',
     'colour_limit_max',
+    'geometry_options',
 ]
 
 LABELS = {
     'model_file': _('Model File'),
     'photo_sys_1': _('PhotoSys 1'),
     'photo_sys_2': _('PotoSys 2'),
+    'magnitude_name': _('Photometric selection band'),
     'apparent_magnitude_min': _('Minimum Apparent Magnitude'),
     'apparent_magnitude_max': _('Maximum Apparent Magnitude'),
     'absolute_magnitude_min': _('Minimum Absolute Magnitude'),
@@ -29,6 +32,7 @@ LABELS = {
     'magnitude_name_2': _('Red band for colour selection'),
     'colour_limit_min': _('Minimum Colour'),
     'colour_limit_max': _('Maximum Colour'),
+    'geometry_options': _('Survey Geometry')
 }
 
 class JobParameterForm(forms.ModelForm):
