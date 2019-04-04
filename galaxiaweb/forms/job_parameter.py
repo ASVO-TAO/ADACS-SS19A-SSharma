@@ -22,6 +22,9 @@ FIELDS = [
     'survey_area',
     'sample_fraction',
     'population_ID',
+    'warp_flare',
+    'seed',
+    'r_max',
 ]
 
 LABELS = {
@@ -42,7 +45,10 @@ LABELS = {
     'latitude': _('Latitude [degrees]'),
     'survey_area': _('Survey Area [squared degrees]'),
     'sample_fraction': _('Stellar Sampling Fraction'),
-    'population_ID': _('Population to generate')
+    'population_ID': _('Population to generate'),
+    'warp_flare': _('Thin disk warp and flare'),
+    'seed': _('Random seed'),
+    'r_max': _('Maximum radial distance [kpc]'),
 }
 
 class JobParameterForm(forms.ModelForm):

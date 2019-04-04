@@ -88,3 +88,6 @@ class JobParameter(models.Model):
 
     population_ID = models.CharField(choices=POPULATIONS, max_length=55, blank=False, null=False,
                                         default=ALL_POP)
+    warp_flare = models.BooleanField(blank=True, null=False, default=True)
+    seed = models.PositiveIntegerField(blank=False, null=False, default=17)
+    r_max = models.FloatField(blank=False, null=False, default=1000)
