@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <h2 class="header_title">New Job</h2>
-    <form method="post">
+    <form method="post" class="col-md-8">
         {% csrf_token %}
 
         {% for field in job_parameter_form %}
@@ -23,6 +23,10 @@
             </div>
         </div>
     {% endfor %}
+        <div class="text-right">
+            <button type="reset" class="btn btn-warning" name="reset">Reset</button>
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+        </div>
 {#    {{ job_parameter_form.as_p }}#}
     </form>
 {% endblock %}
