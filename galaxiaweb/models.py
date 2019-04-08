@@ -51,8 +51,6 @@ class JobParameter(models.Model):
 
     PLACEHOLDER = [(PLACEHOLDER1,PLACEHOLDER1)]
 
-    ######################### Models
-
     model_file = models.CharField(choices=MODEL_FILE_CHOICES, max_length=55, blank=False, null=False, default=SHARMA_2019)
 
     magnitude_name = models.CharField(choices=PLACEHOLDER, max_length=55, blank=False, null=False,

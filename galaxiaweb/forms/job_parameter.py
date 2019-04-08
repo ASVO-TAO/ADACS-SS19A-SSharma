@@ -51,8 +51,33 @@ LABELS = {
     'r_max': _('Maximum radial distance [kpc]'),
 }
 
-class JobParameterForm(forms.ModelForm):
+WIDGETS = {
+    'model_file': forms.Select(attrs={'class': 'form-control'}),
+    'photo_sys_1': forms.Select(attrs={'class': 'form-control'}),
+    'photo_sys_2': forms.Select(attrs={'class': 'form-control'}),
+    'magnitude_name': forms.Select(attrs={'class': 'form-control'}),
+    'apparent_magnitude_min': forms.NumberInput(attrs={'class': 'form-control'}),
+    'apparent_magnitude_max': forms.NumberInput(attrs={'class': 'form-control'}),
+    'absolute_magnitude_min': forms.NumberInput(attrs={'class': 'form-control'}),
+    'absolute_magnitude_max': forms.NumberInput(attrs={'class': 'form-control'}),
+    'magnitude_name_1': forms.Select(attrs={'class': 'form-control'}),
+    'magnitude_name_2': forms.Select(attrs={'class': 'form-control'}),
+    'colour_limit_min': forms.NumberInput(attrs={'class': 'form-control'}),
+    'colour_limit_max': forms.NumberInput(attrs={'class': 'form-control'}),
+    'geometry_options': forms.Select(attrs={'class': 'form-control'}),
+    'longitude': forms.NumberInput(attrs={'class': 'form-control'}),
+    'latitude': forms.NumberInput(attrs={'class': 'form-control'}),
+    'survey_area': forms.NumberInput(attrs={'class': 'form-control'}),
+    'sample_fraction': forms.NumberInput(attrs={'class': 'form-control'}),
+    'population_ID': forms.Select(attrs={'class': 'form-control'}),
+    'warp_flare': forms.CheckboxInput(attrs={'class': 'form-check-input ml-2 mt-2'}),
+    'seed': forms.NumberInput(attrs={'class': 'form-control'}),
+    'r_max': forms.NumberInput(attrs={'class': 'form-control'}),
 
+}
+
+
+class JobParameterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(JobParameterForm, self).__init__(*args, **kwargs)
@@ -61,3 +86,4 @@ class JobParameterForm(forms.ModelForm):
         model = JobParameter
         fields = FIELDS
         labels = LABELS
+        widgets = WIDGETS
