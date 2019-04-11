@@ -899,11 +899,20 @@ let ready = $(document).ready(function() {
         if (survey_geometry === "Circular Patch" ) {
             $('#id_longitude').prop('hidden', false);
             $('#id_latitude').prop('hidden', false);
+            $('#id_survey_area').prop('hidden', false);
+            $('label[for="id_longitude"]').prop('hidden', false);
+            $('label[for="id_latitude"]').prop('hidden', false);
+            $('label[for="id_survey_area"]').prop('hidden', false);
 
         }
         else {
             $('#id_longitude').prop('hidden', true);
             $('#id_latitude').prop('hidden', true);
+            $('#id_survey_area').prop('hidden', true);
+            $('label[for="id_longitude"]').prop('hidden', true);
+            $('label[for="id_latitude"]').prop('hidden', true);
+            $('label[for="id_survey_area"]').prop('hidden', true);
+
         }
 
     }
