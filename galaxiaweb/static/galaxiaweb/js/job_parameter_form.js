@@ -7,6 +7,7 @@ let ready = $(document).ready(function() {
     $('#id_magnitude_name_2 option').addClass('magnitude_name_2');
 
     photo_sys_2_onChange();
+    update_all_sky_and_circular_patch();
 
 
     $('body').on('change', '#id_photo_sys_2',
@@ -14,7 +15,15 @@ let ready = $(document).ready(function() {
 
             photo_sys_2_onChange();
 
+        })
+        .on('change', '#id_geometry_options',
+        function() {
+
+            update_all_sky_and_circular_patch();
+
         });
+
+
 
     function photo_sys_2_onChange(){
         let photosys2 = $('#id_photo_sys_2').find(":selected").text();
@@ -880,5 +889,22 @@ let ready = $(document).ready(function() {
             $('#id_magnitude_name_2 option[value="tycho_bt"]').prop('hidden', false);
             $('#id_magnitude_name_2 option[value="tycho_vt"]').prop({'hidden': false, 'selected': true});
         }
+    }
+    function update_all_sky_and_circular_patch(){
+        $('#id_longitude').prop('hidden', true);
+        $('#id_latitude').prop('hidden', true);
+
+        let survey_geometry = $('#id_geometry_options').find(":selected").text();
+
+        if (survey_geometry === "Circular Patch" ) {
+            $('#id_longitude').prop('hidden', false);
+            $('#id_latitude').prop('hidden', false);
+
+        }
+        else {
+            $('#id_longitude').prop('hidden', true);
+            $('#id_latitude').prop('hidden', true);
+        }
+
     }
 });
