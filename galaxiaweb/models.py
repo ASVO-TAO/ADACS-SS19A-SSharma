@@ -1,8 +1,29 @@
 from django.db import models
 
+from django_hpc_job_controller.models import HpcJob
+
 from .utils.constants import *
 
+
 # Create your models here.
+class Job(HpcJob):
+    """
+    Job model extending HpcJob
+    """
+    creation_time = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now_add=True)
+    json_representation = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return '{}'.format(self.pk)
+
+    def as_json(self):
+        return dict(
+            id=self.id,
+            value=dict(
+                creation_time=self.creation_time.strftime('%d %b %Y %I:%m %p'),
+            ),
+        )
 
 
 class JobParameter(models.Model):
