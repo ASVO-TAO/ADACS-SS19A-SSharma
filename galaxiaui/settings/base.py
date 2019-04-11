@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'galaxiaweb',
+    'django_hpc_job_controller',
 ]
 
 MIDDLEWARE = [
