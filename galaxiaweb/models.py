@@ -1,8 +1,29 @@
 from django.db import models
 
+from django_hpc_job_controller.models import HpcJob
+
 from .utils.constants import *
 
+
 # Create your models here.
+class Job(HpcJob):
+    """
+    Job model extending HpcJob
+    """
+    creation_time = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now_add=True)
+    json_representation = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return '{}'.format(self.pk)
+
+    def as_json(self):
+        return dict(
+            id=self.id,
+            value=dict(
+                creation_time=self.creation_time.strftime('%d %b %Y %I:%m %p'),
+            ),
+        )
 
 
 class JobParameter(models.Model):
@@ -16,24 +37,24 @@ class JobParameter(models.Model):
     ]
 
     PHOTO_SYS_2_CHOICES = [
-        (GAIADR2_TMASS,GAIADR2_TMASS),
-        (WISE,WISE),
-        (SPITZER,SPITZER),
-        (KEPLER,KEPLER),
-        (PANSTARR1,PANSTARR1),
-        (UBV,UBV),
-        (STROEMGREN,STROEMGREN),
-        (DENIS,DENIS),
-        (TYCHO2,TYCHO2),
+        (GAIADR2_TMASS, GAIADR2_TMASS),
+        (WISE, WISE),
+        (SPITZER, SPITZER),
+        (KEPLER, KEPLER),
+        (PANSTARR1, PANSTARR1),
+        (UBV, UBV),
+        (STROEMGREN, STROEMGREN),
+        (DENIS, DENIS),
+        (TYCHO2, TYCHO2),
 
     ]
 
-    GEOMETRY_OPTIONS =[
-        (ALL_SKY,ALL_SKY),
-        (PATCH,PATCH),
+    GEOMETRY_OPTIONS = [
+        (ALL_SKY, ALL_SKY),
+        (PATCH, PATCH),
     ]
 
-    POPULATIONS =[
+    POPULATIONS = [
         (ALL_POP, ALL_POP),
         (THIN_DISK_015, THIN_DISK_015),
         (THIN_DISK_1, THIN_DISK_1),
@@ -49,7 +70,7 @@ class JobParameter(models.Model):
 
     ]
 
-    PLACEHOLDER = [(PLACEHOLDER1,PLACEHOLDER1)]
+    PLACEHOLDER = [(PLACEHOLDER1, PLACEHOLDER1)]
 
     MAGNITUDE_NAME_CHOICES = [
         (GAIA_G, GAIA_G),
@@ -104,18 +125,23 @@ class JobParameter(models.Model):
         (TYCHO_VT, TYCHO_VT),
     ]
 
-    model_file = models.CharField(choices=MODEL_FILE_CHOICES, max_length=55, blank=False, null=False, default=SHARMA_2019)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, blank=False, null=False)
+
+    model_file = models.CharField(choices=MODEL_FILE_CHOICES, max_length=55, blank=False, null=False,
+                                  default=SHARMA_2019)
 
     magnitude_name = models.CharField(choices=MAGNITUDE_NAME_CHOICES, max_length=55, blank=False, null=False,
-                                        default=GAIA_G)
+                                      default=GAIA_G)
     apparent_magnitude_min = models.FloatField(blank=False, null=False, default=-100.0)
     apparent_magnitude_max = models.FloatField(blank=False, null=False, default=14.0)
 
-    photo_sys_1 = models.CharField(choices=PHOTO_SYS_1_CHOICES, max_length=20, blank=False, null=False, default=PARSEC_1)
+    photo_sys_1 = models.CharField(choices=PHOTO_SYS_1_CHOICES, max_length=20, blank=False, null=False,
+                                   default=PARSEC_1)
 
-    photo_sys_2 = models.CharField(choices=PHOTO_SYS_2_CHOICES, max_length=55, blank=False, null=False, default=GAIADR2_TMASS)
+    photo_sys_2 = models.CharField(choices=PHOTO_SYS_2_CHOICES, max_length=55, blank=False, null=False,
+                                   default=GAIADR2_TMASS)
 
-    #photo_sys_extra = photo_sys_1+photo_sys_2
+    # photo_sys_extra = photo_sys_1+photo_sys_2
 
     colour_limit_min = models.FloatField(blank=False, null=False, default=-100)
     colour_limit_max = models.FloatField(blank=False, null=False, default=100)
@@ -124,7 +150,7 @@ class JobParameter(models.Model):
     absolute_magnitude_max = models.FloatField(blank=False, null=False, default=100.0)
 
     magnitude_name_1 = models.CharField(choices=MAGNITUDE_NAME_CHOICES, max_length=55, blank=False, null=False,
-                                  default=GAIA_G)
+                                        default=GAIA_G)
     magnitude_name_2 = models.CharField(choices=MAGNITUDE_NAME_CHOICES, max_length=55, blank=False, null=False,
                                         default=GAIA_GBP)
 
@@ -137,8 +163,7 @@ class JobParameter(models.Model):
     survey_area = models.FloatField(blank=False, null=False, default=100)
     sample_fraction = models.FloatField(blank=False, null=False, default=1)
 
-    population_ID = models.CharField(choices=POPULATIONS, max_length=55, blank=False, null=False,
-                                        default=ALL_POP)
+    population_ID = models.CharField(choices=POPULATIONS, max_length=55, blank=False, null=False, default=ALL_POP)
     warp_flare = models.BooleanField(blank=True, null=False, default=True)
     seed = models.PositiveIntegerField(blank=False, null=False, default=17)
     r_max = models.FloatField(blank=False, null=False, default=1000)
