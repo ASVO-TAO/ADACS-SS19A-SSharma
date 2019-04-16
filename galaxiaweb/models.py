@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 from django_hpc_job_controller.models import HpcJob
@@ -167,3 +168,5 @@ class JobParameter(models.Model):
     warp_flare = models.BooleanField(blank=True, null=False, default=True)
     seed = models.PositiveIntegerField(blank=False, null=False, default=17)
     r_max = models.FloatField(blank=False, null=False, default=1000)
+
+    job_key = models.CharField(max_length=100, null=False, blank=False, unique=True, default=uuid.uuid4)

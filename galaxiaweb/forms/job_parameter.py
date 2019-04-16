@@ -87,3 +87,4 @@ class JobParameterForm(forms.ModelForm):
         fields = FIELDS
         labels = LABELS
         widgets = WIDGETS
+
