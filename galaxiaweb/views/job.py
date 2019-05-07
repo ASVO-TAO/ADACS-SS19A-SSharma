@@ -12,8 +12,13 @@ def new_job(request):
     :param request: Django request object.
     :return: Rendered template
     """
+    if request.method == "POST":
+        form = JobParameterForm(request.POST)
+    else:
+        form = JobParameterForm()
+
     return render(
         request,
         "galaxiaweb/job/new_job.html",
-        {'job_parameter_form': JobParameterForm()}
+        {'job_parameter_form': form}
     )
