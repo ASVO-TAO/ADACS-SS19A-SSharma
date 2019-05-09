@@ -26,5 +26,3 @@ def new_job(request):
         {'job_parameter_form': form}
     )
 
-
-

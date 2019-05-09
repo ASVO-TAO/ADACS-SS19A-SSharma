@@ -1,5 +1,7 @@
 import uuid
 from django.db import models
+from django.core.validators import *
+from django.core.exceptions import ValidationError
 
 from django_hpc_job_controller.models import HpcJob
 
@@ -158,15 +160,20 @@ class JobParameter(models.Model):
     geometry_options = models.CharField(choices=GEOMETRY_OPTIONS, max_length=55, blank=False, null=False,
                                         default=ALL_SKY)
 
-    longitude = models.FloatField(blank=False, null=False, default=0)
-    latitude = models.FloatField(blank=False, null=False, default=90)
+    longitude = models.FloatField(blank=False, null=False, default=0,
+                                  validators=[MinValueValidator(0), MaxValueValidator(360)]
+                                  )
+    latitude = models.FloatField(blank=False, null=False, default=90,
+                                 validators=[MinValueValidator(-90), MaxValueValidator(90)])
 
-    survey_area = models.FloatField(blank=False, null=False, default=100)
-    sample_fraction = models.FloatField(blank=False, null=False, default=1)
+    survey_area = models.FloatField(blank=False, null=False, default=100, validators=[MaxValueValidator(41252)])
+    sample_fraction = models.FloatField(blank=False, null=False, default=1, validators=[MinValueValidator(0)])
 
     population_ID = models.CharField(choices=POPULATIONS, max_length=55, blank=False, null=False, default=ALL_POP)
     warp_flare = models.BooleanField(blank=True, null=False, default=True)
-    seed = models.PositiveIntegerField(blank=False, null=False, default=17)
-    r_max = models.FloatField(blank=False, null=False, default=1000)
 
     job_key = models.CharField(max_length=100, null=False, blank=False, unique=True, default=uuid.uuid4)
+
+    seed = models.PositiveIntegerField(blank=False, null=False, default=17, validators=[MinValueValidator(1)])
+    r_max = models.FloatField(blank=False, null=False, default=1000, validators=[MinValueValidator(1.0)])
+
