@@ -25,6 +25,7 @@ FIELDS = [
     'warp_flare',
     'seed',
     'r_max',
+    'email',
 ]
 
 LABELS = {
@@ -49,6 +50,7 @@ LABELS = {
     'warp_flare': _('Thin disk warp and flare'),
     'seed': _('Random seed'),
     'r_max': _('Maximum radial distance [kpc]'),
+    'email': _('Email address')
 }
 
 WIDGETS = {
@@ -73,6 +75,7 @@ WIDGETS = {
     'warp_flare': forms.CheckboxInput(attrs={'class': 'form-check-input ml-2 mt-2'}),
     'seed': forms.NumberInput(attrs={'class': 'form-control'}),
     'r_max': forms.NumberInput(attrs={'class': 'form-control'}),
+    'email': forms.TextInput(attrs={'class': 'form-control'}),
 
 }
 

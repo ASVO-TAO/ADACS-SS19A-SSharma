@@ -73,8 +73,6 @@ class JobParameter(models.Model):
 
     ]
 
-    PLACEHOLDER = [(PLACEHOLDER1, PLACEHOLDER1)]
-
     MAGNITUDE_NAME_CHOICES = [
         (GAIA_G, GAIA_G),
         (GAIA_GBP, GAIA_GBP),
@@ -177,3 +175,4 @@ class JobParameter(models.Model):
     seed = models.PositiveIntegerField(blank=False, null=False, default=17, validators=[MinValueValidator(1)])
     r_max = models.FloatField(blank=False, null=False, default=1000, validators=[MinValueValidator(1.0)])
 
+    email = models.CharField(blank=True, null=False, max_length=254, validators=[validate_email])
