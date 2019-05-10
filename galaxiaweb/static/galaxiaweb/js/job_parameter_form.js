@@ -296,27 +296,20 @@ let ready = $(document).ready(function() {
         }
     }
     function update_all_sky_and_circular_patch(){
-        $('#id_longitude').prop('hidden', true);
-        $('#id_latitude').prop('hidden', true);
 
         let survey_geometry = $('#id_geometry_options').find(":selected").text();
 
         if (survey_geometry === "Circular Patch" ) {
-            $('#id_longitude').prop('hidden', false);
-            $('#id_latitude').prop('hidden', false);
-            $('#id_survey_area').prop('hidden', false);
-            $('label[for="id_longitude"]').prop('hidden', false);
-            $('label[for="id_latitude"]').prop('hidden', false);
-            $('label[for="id_survey_area"]').prop('hidden', false);
+
+            $('.div-longitude').prop('hidden', false);
+            $('.div-latitude').prop('hidden', false);
+            $('.div-survey_area').prop('hidden', false);
 
         }
         else {
-            $('#id_longitude').prop('hidden', true);
-            $('#id_latitude').prop('hidden', true);
-            $('#id_survey_area').prop('hidden', true);
-            $('label[for="id_longitude"]').prop('hidden', true);
-            $('label[for="id_latitude"]').prop('hidden', true);
-            $('label[for="id_survey_area"]').prop('hidden', true);
+            $('.div-longitude').prop('hidden', true);
+            $('.div-latitude').prop('hidden', true);
+            $('.div-survey_area').prop('hidden', true);
 
         }
 
