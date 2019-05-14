@@ -17,9 +17,7 @@ def new_job(request):
     if request.method == "POST":
         form = JobParameterForm(request.POST)
         if form.is_valid():
-            # form.save(commit=False)
             job = Job.objects.create()
-            print('job_id = ' + str(job))
             form.instance.job = job
             form.save(commit=True)
     else:

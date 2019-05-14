@@ -26,7 +26,6 @@ FIELDS = [
     'seed',
     'r_max',
     'email',
-    'job',
 ]
 
 LABELS = {
@@ -88,7 +87,6 @@ class JobParameterForm(forms.ModelForm):
     class Meta:
         model = JobParameter
         fields = FIELDS
-        exclude = ('job',)
         labels = LABELS
         widgets = WIDGETS
 
