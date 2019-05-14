@@ -5,6 +5,7 @@ let ready = $(document).ready(function() {
     $('#id_magnitude_name option').addClass('magnitude_name');
     $('#id_magnitude_name_1 option').addClass('magnitude_name_1');
     $('#id_magnitude_name_2 option').addClass('magnitude_name_2');
+    $('.div-job').prop('hidden', true);
 
     photo_sys_2_onChange();
     update_all_sky_and_circular_patch();
