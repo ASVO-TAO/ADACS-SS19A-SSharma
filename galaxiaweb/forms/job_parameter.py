@@ -76,7 +76,6 @@ WIDGETS = {
     'seed': forms.NumberInput(attrs={'class': 'form-control'}),
     'r_max': forms.NumberInput(attrs={'class': 'form-control'}),
     'email': forms.TextInput(attrs={'class': 'form-control'}),
-
 }
 
 

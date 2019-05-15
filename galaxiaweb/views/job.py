@@ -4,6 +4,7 @@ Distributed under the MIT License. See LICENSE.txt for more info.
 
 from django.shortcuts import render, redirect
 from ..forms.job_parameter import JobParameterForm
+from ..models import Job
 
 
 def new_job(request):
@@ -16,6 +17,8 @@ def new_job(request):
     if request.method == "POST":
         form = JobParameterForm(request.POST)
         if form.is_valid():
+            job = Job.objects.create()
+            form.instance.job = job
             form.save(commit=True)
     else:
         form = JobParameterForm()
