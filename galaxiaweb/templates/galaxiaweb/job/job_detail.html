@@ -1,0 +1,13 @@
+{% extends 'galaxiaweb/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="page-header">Job Summary</div>
+    <div>
+    {% if job_parameter.job_key %}
+    <div>{{ job_parameter.job_key }}</div>
+        <div>{{ job_parameter.parameter_file }}</div>
+
+    {% endif %}
+    <h2>download parameter file</h2>
+</div>
+{% endblock %}

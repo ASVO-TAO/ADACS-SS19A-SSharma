@@ -1,6 +1,11 @@
 import uuid
+import os
 from django.db import models
 from django.core.validators import *
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
+from django.utils.timezone import datetime
+from django.conf import settings
 from django.core.exceptions import ValidationError
 
 from django_hpc_job_controller.models import HpcJob
@@ -176,3 +181,64 @@ class JobParameter(models.Model):
     r_max = models.FloatField(blank=False, null=False, default=1000, validators=[MinValueValidator(1.0)])
 
     email = models.CharField(blank=True, null=False, max_length=254, validators=[validate_email])
+
+    parameter_file = models.BinaryField(default=b' ')
+
+    def save(self, *args, **kwargs):
+
+        self.job_key = datetime.now().strftime('%d-%b-%Y_%H%M')
+        self.save_parameter_file(self.to_params_dict())
+        super().save(*args, **kwargs)
+
+    def to_params_dict(self):
+
+        params_dict = dict()
+        params_dict['outputFile'] = f"galaxia_{self.job_key}"
+        params_dict['modelFile'] = NAME_VALUES[self.model_file]
+        params_dict['codeDataDir'] = '/work1/sharma/GsynthData/'
+        params_dict['outputDir'] = './'
+        params_dict['photoSys'] = '{}/{}'.format(NAME_VALUES[self.photo_sys_1], NAME_VALUES[self.photo_sys_2])
+        params_dict['magcolorNames'] = '{},{},{}'.format(NAME_VALUES[self.magnitude_name],
+                                                         NAME_VALUES[self.magnitude_name_1],
+                                                         NAME_VALUES[self.magnitude_name_2])
+        params_dict['appMagLimits[0]'] = self.apparent_magnitude_min
+        params_dict['appMagLimits[1]'] = self.apparent_magnitude_max
+        params_dict['absMagLimits[0]'] = self.absolute_magnitude_min
+        params_dict['absMagLimits[1]'] = self.absolute_magnitude_max
+        params_dict['colorLimits[0]'] = self.colour_limit_min
+        params_dict['colorLimits[01'] = self.colour_limit_max
+        params_dict['colorLimits[0]'] = self.colour_limit_min
+        params_dict['colorLimits[01'] = self.colour_limit_max
+        params_dict['geometryOption'] = NAME_VALUES[self.geometry_options]
+        params_dict['longitude'] = self.longitude
+        params_dict['latitude'] = self.latitude
+        params_dict['starType'] = '0'
+        params_dict['photoError'] = '0'
+        params_dict['surveyArea'] = self.survey_area
+        params_dict['fSample'] = self.sample_fraction
+        params_dict['popID'] = NAME_VALUES[self.population_ID]
+        params_dict['warpFlareOn'] = '1' if self.warp_flare else '0'
+        params_dict['seed'] = self.seed
+        params_dict['r_max'] = self.r_max
+
+        return params_dict
+
+    def save_parameter_file(self, params_dict):
+
+        content_list = [f"{key.ljust(40)}{value}" for (key, value) in params_dict.items()]
+        # content_list = [f"{key:<40}{value}" for (key, value) in params_dict.items()]
+        content = "\n".join(content_list)
+
+        file = ContentFile(content)
+
+        storage_location = os.path.join(settings.MEDIA_ROOT, 'params')
+        fs = FileSystemStorage(location=storage_location)
+        fs.save(str(self.job_key), file)
+
+        self.parameter_file = bytes(content, encoding='utf-8')
+
+
+
+
+
+

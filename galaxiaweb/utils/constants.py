@@ -5,7 +5,7 @@ SHARMA_2019_VALUE = 'Model/population_parameters_mrtd5.ebf'
 PARSEC_1 = 'parsec1'
 PARSEC_1_VALUE = 'parsec1'
 GAIADR2_TMASS = 'GAIADR2_TMASS'
-GAIADR2_TMASS_VALUE = ['gaia_g','gaia_gbp','gaia_grp','tmass_j','tmass_h','tmass_ks']
+GAIADR2_TMASS_VALUE = 'GAIADR2_TMASS'
 
 GAIA_G = 'gaia_g'
 GAIA_GBP = 'gaia_gbp'
@@ -15,7 +15,7 @@ TMASS_H = 'tmass_h'
 TMASS_KS = 'tmass_ks'
 
 WISE = 'WISE'
-WISE_VALUE = ['wise_w1','wise_w2','wise_w3','wise_w4']
+WISE_VALUE = 'WISE'
 
 WISE_W1 = 'wise_w1'
 WISE_W2 = 'wise_w2'
@@ -23,7 +23,7 @@ WISE_W3 = 'wise_w3'
 WISE_W4 = 'wise_w4'
 
 SPITZER = 'SPITZER'
-SPITZER_VALUE = ['irac_3.6', 'irac_4.5','irac_5.8','irac_8.0', 'mips_24', 'mips_70','mips_160']
+SPITZER_VALUE = 'SPITZER'
 
 IRAC_36 = 'irac_3.6'
 IRAC_45 = 'irac_4.5'
@@ -34,7 +34,7 @@ MIPS_70 = 'mips_70'
 MIPS_160 = 'mips_160'
 
 KEPLER = 'KEPLER'
-KEPLER_VALUE = ['tess_te','kepler_ke','sdss_g','sdss_r','sdss_i','sdss_z','kepler_ddo51']
+KEPLER_VALUE = 'KEPLER'
 
 TESS_TE = 'tess_te'
 KEPLER_KE = 'kepler_ke'
@@ -45,7 +45,7 @@ SDSS_Z = 'sdss_z'
 KEPLER_DDO51 = 'kepler_ddo51'
 
 PANSTARR1 = 'PANSTARR 1'
-PANSTARR1_VALUE = ['pans1_g','pans1_r','pans1_i','pans1_z','pans1_y','pans1_w']
+PANSTARR1_VALUE = 'PANSTARR 1'
 
 PANS1_G = 'pans1_g'
 PANS1_R = 'pans1_r'
@@ -55,7 +55,7 @@ PANS1_Y = 'pans1_y'
 PANS1_W = 'pans1_w'
 
 UBV = 'UBV'
-UBV_VALUE =  ['ubv_u','ubv_b','ubv_v','ubv_r','ubv_i','ubv_j','ubv_h','ubv_k']
+UBV_VALUE = 'UBV'
 
 UBV_U = 'ubv_u'
 UBV_B = 'ubv_b'
@@ -68,7 +68,7 @@ UBV_K = 'ubv_k'
 
 
 STROEMGREN = 'STROEMGREN'
-STROEMGREN_VALUE=['stroemgren_v1','stroemgren_u','stroemgren_v','stroemgren_b','stroemgren_y','stroemgren_hb_w','stroemgren_hb_n']
+STROEMGREN_VALUE = 'STROEMGREN'
 
 STROEMGREN_V1 = 'stroemgren_v1'
 STROEMGREN_U = 'stroemgren_u'
@@ -78,15 +78,15 @@ STROEMGREN_Y = 'stroemgren_y'
 STROEMGREN_HB_W = 'stroemgren_hb_w'
 STROEMGREN_HB_N = 'stroemgren_hb_n'
 
-DENIS='DENIS'
-DENIS_VALUE= ['denis_i','denis_j','denis_ks']
+DENIS = 'DENIS'
+DENIS_VALUE = 'DENIS'
 
 DENIS_I = 'denis_i'
 DENIS_J = 'denis_j'
 DENIS_KS = 'denis_ks'
 
 TYCHO2 = 'TYCHO2'
-TYCHO2_VALUE = ['tycho_bt','tycho_vt']
+TYCHO2_VALUE = 'TYCHO2'
 
 TYCHO_BT = 'tycho_bt'
 TYCHO_VT = 'tycho_vt'

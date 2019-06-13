@@ -2,7 +2,7 @@
 Distributed under the MIT License. See LICENSE.txt for more info.
 """
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from ..forms.job_parameter import JobParameterForm
 from ..models import Job
 
@@ -20,12 +20,22 @@ def new_job(request):
             job = Job.objects.create()
             form.instance.job = job
             form.save(commit=True)
+            return render(
+                request,
+                "galaxiaweb/job/job_detail.html",
+                {'job_parameter': form.instance}
+            )
     else:
         form = JobParameterForm()
+        return render(
+            request,
+            "galaxiaweb/job/new_job.html",
+            {'job_parameter_form': form}
+        )
 
-    return render(
-        request,
-        "galaxiaweb/job/new_job.html",
-        {'job_parameter_form': form}
-    )
+
+def job_detail(request, key):
+    job = get_object_or_404(Job, job_key=key)
+    return render(request, 'galaxiaweb/job/job_detail.html', {'job': job})
+
 
