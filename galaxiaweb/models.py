@@ -6,7 +6,6 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 from django.utils.timezone import datetime
 from django.conf import settings
-from django.core.exceptions import ValidationError
 
 from django_hpc_job_controller.models import HpcJob
 
@@ -182,7 +181,9 @@ class JobParameter(models.Model):
 
     email = models.CharField(blank=True, null=False, max_length=254, validators=[validate_email])
 
-    parameter_file = models.BinaryField(default=b' ')
+    parameter_file_url = models.CharField(null=True, default=None, max_length=100)
+
+    parameters = models.BinaryField(default=None, null=True)
 
     def save(self, *args, **kwargs):
 
@@ -230,12 +231,11 @@ class JobParameter(models.Model):
         content = "\n".join(content_list)
 
         file = ContentFile(content)
-
-        storage_location = os.path.join(settings.MEDIA_ROOT, 'params')
+        storage_location = os.path.join(settings.MEDIA_ROOT, settings.PARAMETER_FILES_DIR)
         fs = FileSystemStorage(location=storage_location)
         fs.save(str(self.job_key), file)
-
-        self.parameter_file = bytes(content, encoding='utf-8')
+        self.parameter_file_url = settings.PARAMETER_FILES_DIR + self.job_key
+        self.parameters = bytes(content, encoding='utf-8')
 
 
 

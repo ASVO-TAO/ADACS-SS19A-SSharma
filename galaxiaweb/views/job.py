@@ -4,7 +4,7 @@ Distributed under the MIT License. See LICENSE.txt for more info.
 
 from django.shortcuts import render, redirect, get_object_or_404
 from ..forms.job_parameter import JobParameterForm
-from ..models import Job
+from ..models import Job, JobParameter
 
 
 def new_job(request):
@@ -23,7 +23,7 @@ def new_job(request):
             return render(
                 request,
                 "galaxiaweb/job/job_detail.html",
-                {'job_parameter': form.instance}
+                {'job': form.instance}
             )
     else:
         form = JobParameterForm()
@@ -35,7 +35,7 @@ def new_job(request):
 
 
 def job_detail(request, key):
-    job = get_object_or_404(Job, job_key=key)
+    job = get_object_or_404(JobParameter, job_key=key)
     return render(request, 'galaxiaweb/job/job_detail.html', {'job': job})
 
 
