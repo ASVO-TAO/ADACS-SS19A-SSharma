@@ -29,7 +29,7 @@ def about(request):
     )
 
 
-def error_404_view(request, exception):
+def error_404_view(request):
     """
     Render custom 404 page.
     :param request: Django request object.

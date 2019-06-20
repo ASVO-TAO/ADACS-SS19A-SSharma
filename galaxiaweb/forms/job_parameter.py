@@ -120,5 +120,7 @@ class JobParameterForm(forms.ModelForm):
                 self.add_error('colour_limit_min', msg)
                 self.add_error('colour_limit_max', msg)
 
+        return cleaned_data
+
 
 

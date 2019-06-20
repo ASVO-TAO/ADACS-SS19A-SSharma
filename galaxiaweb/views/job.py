@@ -25,6 +25,12 @@ def new_job(request):
                 "galaxiaweb/job/job_detail.html",
                 {'job': form.instance}
             )
+        else:
+            return render(
+                request,
+                "galaxiaweb/job/new_job.html",
+                {'job_parameter_form': form}
+            )
     else:
         form = JobParameterForm()
         return render(
@@ -37,5 +43,3 @@ def new_job(request):
 def job_detail(request, key):
     job = get_object_or_404(JobParameter, job_key=key)
     return render(request, 'galaxiaweb/job/job_detail.html', {'job': job})
-
-
