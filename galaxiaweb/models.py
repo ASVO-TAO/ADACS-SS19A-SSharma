@@ -2,8 +2,8 @@ import uuid
 import os
 from django.db import models
 from django.core.validators import *
-from django.core.files.base import ContentFile
-from django.core.files.storage import FileSystemStorage
+# from django.core.files.base import File, ContentFile
+# from django.core.files.storage import FileSystemStorage
 from django.utils.timezone import datetime
 from django.conf import settings
 
@@ -207,9 +207,7 @@ class JobParameter(models.Model):
         params_dict['absMagLimits[0]'] = self.absolute_magnitude_min
         params_dict['absMagLimits[1]'] = self.absolute_magnitude_max
         params_dict['colorLimits[0]'] = self.colour_limit_min
-        params_dict['colorLimits[01'] = self.colour_limit_max
-        params_dict['colorLimits[0]'] = self.colour_limit_min
-        params_dict['colorLimits[01'] = self.colour_limit_max
+        params_dict['colorLimits[1]'] = self.colour_limit_max
         params_dict['geometryOption'] = NAME_VALUES[self.geometry_options]
         params_dict['longitude'] = self.longitude
         params_dict['latitude'] = self.latitude
@@ -229,11 +227,19 @@ class JobParameter(models.Model):
         content_list = [f"{key.ljust(40)}{value}" for (key, value) in params_dict.items()]
         # content_list = [f"{key:<40}{value}" for (key, value) in params_dict.items()]
         content = "\n".join(content_list)
+        content += "\n"
 
-        file = ContentFile(content)
-        storage_location = os.path.join(settings.MEDIA_ROOT, settings.PARAMETER_FILES_DIR)
-        fs = FileSystemStorage(location=storage_location)
-        fs.save(str(self.job_key), file)
+        storage_location = os.path.join(settings.MEDIA_ROOT, settings.PARAMETER_FILES_DIR, self.job_key)
+
+        with open(storage_location, 'w') as f:
+            # myfile = File(f)
+            f.write(content)
+            f.writelines('\n')
+
+        # storage_location = os.path.join(settings.MEDIA_ROOT, settings.PARAMETER_FILES_DIR)
+        # file = ContentFile(content)
+        # fs = FileSystemStorage(location=storage_location)
+        # fs.save(str(self.job_key), file)
         self.parameter_file_url = settings.PARAMETER_FILES_DIR + self.job_key
         self.parameters = bytes(content, encoding='utf-8')
 
