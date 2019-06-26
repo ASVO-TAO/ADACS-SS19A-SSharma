@@ -142,3 +142,6 @@ pyvenv.cfg
 pip-selfcheck.json
 
 *.pyc
+
+media/
+files/

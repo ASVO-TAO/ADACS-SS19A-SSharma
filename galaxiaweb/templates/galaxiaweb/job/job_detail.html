@@ -1,0 +1,16 @@
+{% extends 'galaxiaweb/base.html' %}
+{% load static %}
+{% block content %}
+    {% get_media_prefix as media_prefix %}
+    <div class="page-header">Your job is submitted!</div>
+    <div class="row">
+        {% if job.job_key %}
+            <div class="col col-md-2 col-sm-6 col-sx-6 col-12 mb-2"><h5>Job Key</h5></div>
+            {% if job.parameter_file_url %}
+            <a href="{% get_media_prefix %}{{job.parameter_file_url  }}">{{ job.job_key }}</a>
+            {% else %}
+            <div class="col col-md-10 col-sm-6 col-sx-6 col-12 mb-2">{{ job.job_key }}</div>%
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

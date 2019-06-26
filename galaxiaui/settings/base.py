@@ -191,3 +191,8 @@ ROOT_SUBDIRECTORY_PATH = ''
 SITE_URL = ''
 
 HPC_JOB_CLASS = 'galaxiaweb.models.Job'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
+PARAMETER_FILES_DIR = 'parameter_files/'
+
+MEDIA_URL = '/media/'

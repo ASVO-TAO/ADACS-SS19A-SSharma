@@ -31,7 +31,7 @@ FIELDS = [
 LABELS = {
     'model_file': _('Model File'),
     'photo_sys_1': _('PhotoSys 1'),
-    'photo_sys_2': _('PotoSys 2'),
+    'photo_sys_2': _('PhotoSys 2'),
     'magnitude_name': _('Photometric selection band'),
     'apparent_magnitude_min': _('Minimum Apparent Magnitude'),
     'apparent_magnitude_max': _('Maximum Apparent Magnitude'),
@@ -89,4 +89,38 @@ class JobParameterForm(forms.ModelForm):
         fields = FIELDS
         labels = LABELS
         widgets = WIDGETS
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        apparent_magnitude_min = cleaned_data.get('apparent_magnitude_min')
+        apparent_magnitude_max = cleaned_data.get('apparent_magnitude_max')
+
+        if apparent_magnitude_min and apparent_magnitude_max:
+            if apparent_magnitude_min > apparent_magnitude_max:
+                msg = 'Minimum Apparent Magnitude should be less than or equal to Maximum Apparent Magnitude'
+                self.add_error('apparent_magnitude_min', msg)
+                self.add_error('apparent_magnitude_max', msg)
+
+        absolute_magnitude_min = cleaned_data.get('absolute_magnitude_min')
+        absolute_magnitude_max = cleaned_data.get('absolute_magnitude_max')
+
+        if absolute_magnitude_min and absolute_magnitude_max:
+            if absolute_magnitude_min > absolute_magnitude_max:
+                msg = 'Minimum Absolute Magnitude should be less than or equal to Maximum Absolute Magnitude'
+                self.add_error('absolute_magnitude_min', msg)
+                self.add_error('absolute_magnitude_max', msg)
+
+        colour_limit_min = cleaned_data.get('colour_limit_min')
+        colour_limit_max = cleaned_data.get('colour_limit_max')
+
+        if colour_limit_min and colour_limit_max:
+            if colour_limit_min > colour_limit_max:
+                msg = 'Minimum Colour should be less than or equal to Maximum Colour'
+                self.add_error('colour_limit_min', msg)
+                self.add_error('colour_limit_max', msg)
+
+        return cleaned_data
+
+
 
