@@ -196,7 +196,7 @@ class JobParameter(models.Model):
         params_dict = dict()
         params_dict['outputFile'] = f"galaxia_{self.job_key}"
         params_dict['modelFile'] = NAME_VALUES[self.model_file]
-        params_dict['codeDataDir'] = '/work1/sharma/GsynthData/'
+        params_dict['codeDataDir'] = settings.GALAXIA_CODE_DATA_DIR
         params_dict['outputDir'] = './'
         params_dict['photoSys'] = '{}/{}'.format(NAME_VALUES[self.photo_sys_1], NAME_VALUES[self.photo_sys_2])
         params_dict['magcolorNames'] = '{},{},{}'.format(NAME_VALUES[self.magnitude_name],
@@ -229,9 +229,17 @@ class JobParameter(models.Model):
         content = "\n".join(content_list)
         content += "\n"
 
-        storage_location = os.path.join(settings.MEDIA_ROOT, settings.PARAMETER_FILES_DIR, self.job_key)
+        storage_location = os.path.join(settings.MEDIA_ROOT, self.job_key)
 
-        with open(storage_location, 'w') as f:
+        if not os.path.exists(storage_location):
+            os.makedirs(storage_location)
+
+        parameter_file_path = os.path.join(storage_location, self.job_key)
+
+        print(storage_location)
+        print(parameter_file_path)
+
+        with open(parameter_file_path, 'w') as f:
             # myfile = File(f)
             f.write(content)
             f.writelines('\n')
@@ -240,7 +248,7 @@ class JobParameter(models.Model):
         # file = ContentFile(content)
         # fs = FileSystemStorage(location=storage_location)
         # fs.save(str(self.job_key), file)
-        self.parameter_file_url = settings.PARAMETER_FILES_DIR + self.job_key
+        self.parameter_file_url = self.job_key + "/" + self.job_key
         self.parameters = bytes(content, encoding='utf-8')
 
 

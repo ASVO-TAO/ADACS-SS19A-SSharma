@@ -196,3 +196,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
 PARAMETER_FILES_DIR = 'parameter_files/'
 
 MEDIA_URL = '/media/'
+
+# Celery settings
+
+CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
+
+# GALAXIA Settings
+
+GALAXIA_CODE_DATA_DIR = '/work1/sharma/GsynthData/'
+
+
+
+
+

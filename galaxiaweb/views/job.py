@@ -1,13 +1,17 @@
 """
 Distributed under the MIT License. See LICENSE.txt for more info.
 """
+import os
 
 # from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
+
 from ..forms.job_parameter import JobParameterForm
 from ..models import Job, JobParameter
+from ..utils.tasks import run_galaxia
 
 
 def new_job(request):
@@ -16,7 +20,7 @@ def new_job(request):
     :param request: Django request object.
     :return: Rendered template
     """
-
+    request.session.flush()
     if request.method == "POST":
         form = JobParameterForm(request.POST)
         if form.is_valid():
@@ -44,5 +48,23 @@ def new_job(request):
 
 
 def job_detail(request, job_key):
+
+    if 'job_key' not in request.session:
+        request.session['job_key'] = job_key
+        request.session['fired'] = False
+
     job = get_object_or_404(JobParameter, job_key=job_key)
-    return render(request, 'galaxiaweb/job/job_detail.html', {'job': job})
+    parameter_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, job.job_key)
+    output_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, f'galaxia_{job.job_key}')
+
+    if request.session['job_key'] == job_key and not request.session['fired']:
+        result = run_galaxia.delay(parameter_file_path)
+        request.session['fired'] = True
+        print('job fired')
+
+    output = None
+
+    if os.path.exists(output_file_path):
+        output = job.job_key + f'/galaxia_{job.job_key}'
+
+    return render(request, 'galaxiaweb/job/job_detail.html', {'job': job, 'output': output})
