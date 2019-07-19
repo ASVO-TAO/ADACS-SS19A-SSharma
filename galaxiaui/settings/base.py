@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'galaxiaweb',
-    'django_hpc_job_controller',
 ]
 
 MIDDLEWARE = [
@@ -174,11 +173,6 @@ LOGGING = {
             'propagate': True,
         },
         'galaxiaweb': {
-            'handlers': ['file', 'mail_admins', 'console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'django_hpc_job_controller': {
             'handlers': ['file', 'mail_admins', 'console'],
             'level': 'INFO',
             'propagate': True,

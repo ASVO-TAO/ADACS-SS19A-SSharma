@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms.job_parameter import JobParameterForm
-from ..models import Job, JobParameter
+from ..models import JobParameter
 from ..utils.tasks import run_galaxia
 
 
@@ -24,8 +24,6 @@ def new_job(request):
     if request.method == "POST":
         form = JobParameterForm(request.POST)
         if form.is_valid():
-            job = Job.objects.create()
-            form.instance.job = job
             form.save(commit=True)
             job_key = form.instance.job_key
             # return HttpResponseRedirect(reverse('job_detail', args=(job_key,)))

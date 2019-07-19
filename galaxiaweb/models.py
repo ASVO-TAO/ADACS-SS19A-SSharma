@@ -7,31 +7,10 @@ from django.core.validators import *
 from django.utils.timezone import datetime
 from django.conf import settings
 
-from django_hpc_job_controller.models import HpcJob
-
 from .utils.constants import *
 
 
 # Create your models here.
-class Job(HpcJob):
-    """
-    Job model extending HpcJob
-    """
-    creation_time = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now_add=True)
-    json_representation = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return '{}'.format(self.pk)
-
-    def as_json(self):
-        return dict(
-            id=self.id,
-            value=dict(
-                creation_time=self.creation_time.strftime('%d %b %Y %I:%m %p'),
-            ),
-        )
-
 
 class JobParameter(models.Model):
     MODEL_FILE_CHOICES = [
@@ -130,8 +109,6 @@ class JobParameter(models.Model):
         (TYCHO_VT, TYCHO_VT),
     ]
 
-    job = models.ForeignKey(Job, on_delete=models.CASCADE, blank=False, null=False)
-
     model_file = models.CharField(choices=MODEL_FILE_CHOICES, max_length=55, blank=False, null=False,
                                   default=SHARMA_2019)
 
@@ -187,7 +164,8 @@ class JobParameter(models.Model):
 
     def save(self, *args, **kwargs):
 
-        self.job_key = datetime.now().strftime('%d-%b-%Y_%H%M')
+        # self.job_key = datetime.now().strftime('%d-%b-%Y_%H%M')
+        self.job_key = str(uuid.uuid4())
         self.save_parameter_file(self.to_params_dict())
         super().save(*args, **kwargs)
 
