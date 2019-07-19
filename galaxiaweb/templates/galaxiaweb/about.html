@@ -1,33 +1,17 @@
 {% extends 'galaxiaweb/base.html' %}
 {% load static %}
 {% block content %}
-    <div>
-        <h3>About Galaxia</h3>
-    <p>
-        The code is described in Sharma et al.  2019 .  One of the main feature of the code is to generate a continuous distribution of stars over a wide angular area.  The web interface is currently limited to tasks that require less than X minutes.  For more intensive jobs please consider decreasing the sampling parameter fSample or download and run the code locally on your computer.
+    <div class="page-header">References</div>
+    <div class="static-content">
+        <div class="section text-justify">The main reference for galaxia is</div>
 
-The output data is in a special binary format which we call EBF (Efficient and Easy Binary Format) and these files are denoted with .ebf extension.  See http://ebfformat.sourceforge.net/   for further information on reading wrting ebf file.  The details of the output quantities are given here.
-The data can be loaded in python using
-
-pip install --user --upgrade git+https://github.com/sanjibs/ebfpy.git@master
->>> import ebf
->>> data=ebf.read('galaxy1.ebf','/')
->>> print data.keys()
-
-
-<h3>References</h3>
-The main reference for galaxia is
-1) Sharma, S., Bland-Hawthorn, J., Johnston, K. V., & Binney, J. 2011, ApJ, 730,3
-
-Currently the implemented analytic model is the Besancon model from
-2) Robin, A. C., Reyl´e, C., Derri`ere, S., & Picaud, S. 2003, A&A, 409, 523
-
-Isochrones used in galaxia are from  Padova Stellar Evolution database.
-3) Bressan A., Marigo P., Girardi L., Salasnich B., Dal Cero C., Rubele S., Nanni A., 2012, MNRAS, 427, 127
-4) Tang J., Bressan A., Rosenfield P., Slemer A., Marigo P., Girardi L., Bianchi L., 2014, MNRAS, 445, 4287
-5) Chen Y., Girardi L., Bressan A., Marigo P., Barbieri M., Kong X., 2014, MNRAS, 444, 2525
-
-    </p>
+        <div class="section text-justify">1) Sharma, S., Bland-Hawthorn, J., Johnston, K. V., & Binney, J. 2011, ApJ, 730,3
+            <br>Currently the implemented analytic model is the Besancon model from</div>
+        <div class="section text-justify">2) Robin, A. C., Reyl´e, C., Derri`ere, S., & Picaud, S. 2003, A&A, 409, 523
+            <br>Isochrones used in galaxia are from  <a href="http://stev.oapd.inaf.it/cgi-bin/cmd">Padova Stellar Evolution database</a>.</div>
+        <div class="section text-justify">3) Bressan A., Marigo P., Girardi L., Salasnich B., Dal Cero C., Rubele S., Nanni A., 2012, MNRAS, 427, 127 </div>
+        <div class="section text-justify">4) Tang J., Bressan A., Rosenfield P., Slemer A., Marigo P., Girardi L., Bianchi L., 2014, MNRAS, 445, 4287</div>
+        <div class="section text-justify">5) Chen Y., Girardi L., Bressan A., Marigo P., Barbieri M., Kong X., 2014, MNRAS, 444, 2525</div>
     </div>
 
 {% endblock %}
