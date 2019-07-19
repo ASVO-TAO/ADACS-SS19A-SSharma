@@ -2,11 +2,8 @@
 {% load static %}
 {% block content %}
     {% get_media_prefix as media_prefix %}
-    <!-- <div class="page-header">Your job is submitted!</div> -->
-    <div class="row">
+    <div class="row static-content">
         {% if job.job_key %}
-            <!-- <div class="col col-md-2 col-sm-6 col-sx-6 col-12 mb-2"><h5>Job Key</h5></div> -->
-            <!-- <div class="col col-md-10 col-sm-6 col-sx-6 col-12 mb-2">{{ job.job_key }} -->
 
             <div class="col col-12">
                 {% if output %}

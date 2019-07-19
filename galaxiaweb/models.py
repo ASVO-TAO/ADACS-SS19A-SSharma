@@ -1,10 +1,8 @@
 import uuid
 import os
+
 from django.db import models
 from django.core.validators import *
-# from django.core.files.base import File, ContentFile
-# from django.core.files.storage import FileSystemStorage
-from django.utils.timezone import datetime
 from django.conf import settings
 
 from .utils.constants import *
@@ -164,7 +162,6 @@ class JobParameter(models.Model):
 
     def save(self, *args, **kwargs):
 
-        # self.job_key = datetime.now().strftime('%d-%b-%Y_%H%M')
         self.job_key = str(uuid.uuid4())
         self.save_parameter_file(self.to_params_dict())
         super().save(*args, **kwargs)
@@ -203,7 +200,6 @@ class JobParameter(models.Model):
     def save_parameter_file(self, params_dict):
 
         content_list = [f"{key.ljust(40)}{value}" for (key, value) in params_dict.items()]
-        # content_list = [f"{key:<40}{value}" for (key, value) in params_dict.items()]
         content = "\n".join(content_list)
         content += "\n"
 
@@ -214,18 +210,10 @@ class JobParameter(models.Model):
 
         parameter_file_path = os.path.join(storage_location, self.job_key)
 
-        print(storage_location)
-        print(parameter_file_path)
-
         with open(parameter_file_path, 'w') as f:
-            # myfile = File(f)
             f.write(content)
             f.writelines('\n')
 
-        # storage_location = os.path.join(settings.MEDIA_ROOT, settings.PARAMETER_FILES_DIR)
-        # file = ContentFile(content)
-        # fs = FileSystemStorage(location=storage_location)
-        # fs.save(str(self.job_key), file)
         self.parameter_file_url = self.job_key + "/" + self.job_key
         self.parameters = bytes(content, encoding='utf-8')
 

@@ -3,7 +3,6 @@ Distributed under the MIT License. See LICENSE.txt for more info.
 """
 import os
 
-# from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
@@ -26,10 +25,8 @@ def new_job(request):
         if form.is_valid():
             form.save(commit=True)
             job_key = form.instance.job_key
-            # return HttpResponseRedirect(reverse('job_detail', args=(job_key,)))
             return redirect(reverse("job_detail", args=(job_key,)))
         else:
-            # messages.add_message(request, messages.ERROR, 'Please fix errors before proceeding')
             messages.error(request, 'Please fix errors before proceeding')
             return render(
                 request,
