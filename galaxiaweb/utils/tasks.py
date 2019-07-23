@@ -4,7 +4,6 @@ from celery.exceptions import SoftTimeLimitExceeded
 
 import os
 import subprocess
-import time
 
 from django.conf import settings
 
@@ -16,9 +15,10 @@ from .constants import TASK_TIMEOUT, TASK_SUCCESS, TASK_FAIL, TASK_RUNNING
 
 def check_output_file_generated(outputfilepath):
 
-    while not os.path.exists(outputfilepath):
-        print('output file generated')
-        return TASK_RUNNING
+    created = False
+    while not created:
+        created = os.path.exists(outputfilepath)
+    print('output file generated')
     return TASK_SUCCESS
 
 
@@ -32,20 +32,31 @@ def run_galaxia(parameterfilepath, outputfilepath):
         # Adding the parameter file path as a command argument
         command.append(parameterfilepath)
         # run galaxia on a separate thread
-        process = subprocess.Popen(command)
-
+        subprocess.call(command)
         # Check output file is generated within 5 mins
         result = check_output_file_generated(outputfilepath)
+
     except SoftTimeLimitExceeded as timeout_err:
         print(timeout_err)
         result = TASK_TIMEOUT
-        process.kill()
     except Exception as e:
         print(e)
         result = TASK_FAIL
-        process.kill()
     finally:
         return result
 
 
-# Use celery.task.apply_async(timeout) to wait for the task to run
+@shared_task
+def send_success_notification_email(address=None):
+    if address:
+        print(f'Success Email sent to: {address}')
+    else:
+        print('No email provided')
+
+
+@shared_task
+def send_timeout_notification_email(address=None):
+    if address:
+        print(f'Timeout Email sent to: {address}')
+    else:
+        print('No email provided')

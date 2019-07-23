@@ -185,12 +185,10 @@ ROOT_SUBDIRECTORY_PATH = ''
 
 SITE_URL = ''
 
-HPC_JOB_CLASS = 'galaxiaweb.models.Job'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
-PARAMETER_FILES_DIR = 'parameter_files/'
 
 MEDIA_URL = '/media/'
+
 
 # Celery settings
 
@@ -198,7 +196,7 @@ CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
 
 CELERY_RESULT_BACKEND = 'django-db'
 
-# CELERY_ANNOTATIONS = {'tasks.run_galaxia': {'time_limit': 30}}
+
 
 
 # GALAXIA Settings
@@ -206,7 +204,6 @@ CELERY_RESULT_BACKEND = 'django-db'
 GALAXIA_CODE_DATA_DIR = '/work1/sharma/GsynthData/'
 
 RUN_GALAXIA_COMMAND = ['python', '/home/eman/PycharmProjects/generate-galaxia-output.py']
-
 
 
 

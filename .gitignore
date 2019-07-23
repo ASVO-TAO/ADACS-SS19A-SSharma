@@ -143,4 +143,5 @@ pip-selfcheck.json
 
 *.pyc
 
-media/
+files/*
+!files/.gitkeep
