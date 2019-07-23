@@ -1,27 +1,25 @@
-def send_email(to,job_key,link): #needs url
+from django.conf import settings
+
+
+def send_email(to,job_key,link, output_link): #needs url
     ''' sends email using a Jinja HTML template '''
-
-
     # Import the email modules
-    from django.core.mail import EmailMultiAlternatives
 
+    from django.core.mail import EmailMultiAlternatives
     from django.template import Template,Context
 
 
-    url = link #'media/'+job_key+'/'+job_key
-
     html_template = Template('Dear Galaxia User,\n Your job {{ job_id }} is complete. \n'
-                             ' You can download the parameter and'
-                             ' output files by following this link: {{ job_link }}')
-    html_context = Context({'job_id': job_key,'job_link': url})
+                             ' You can download the parameter file here: {{ job_link }}. \n'
+                             ' And the output file by following this link: {{ output_link }}')
+    html_context = Context({'job_id': job_key,'job_link': link, 'output_link': output_link})
 
     html_final_content = html_template.render(html_context)
 
-   # print (html_final_content)
 
     txt_template = ('Dear Galaxia User,\n Your job {{ job_id }} is complete. \n'
-                    ' You can download the parameter and'
-                    ' output files by following this link: {{ job_link }}')
+                    ' You can download the parameter file here: {{ job_link }} and \n'
+                    ' And the output file by following this link: {{ output_link }}')
 
 
     msg = EmailMultiAlternatives(subject='test', from_email="noreply@swin.edu.au",to=to, body=html_final_content)
@@ -29,3 +27,13 @@ def send_email(to,job_key,link): #needs url
     msg.send()
 
 
+def get_absolute_site_url(request):
+    site_name = request.get_host()
+    if request.is_secure():
+        protocol = 'https'
+    else:
+        protocol = settings.HTTP_PROTOCOL
+    address = protocol + '://' + site_name
+    if settings.ROOT_SUBDIRECTORY_PATH != '':
+        address += '/' + settings.ROOT_SUBDIRECTORY_PATH[:-1]
+    return address

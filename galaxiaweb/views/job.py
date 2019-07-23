@@ -4,6 +4,7 @@ Distributed under the MIT License. See LICENSE.txt for more info.
 import os
 
 # from django.http import HttpResponseRedirect
+from django.templatetags.static import get_media_prefix
 from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
@@ -12,7 +13,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..forms.job_parameter import JobParameterForm
 from ..models import JobParameter
 from ..utils.tasks import run_galaxia
-from ..utils.send_emails import send_email
+from ..utils.send_emails import send_email, get_absolute_site_url
 
 
 def new_job(request):
@@ -27,7 +28,9 @@ def new_job(request):
         if form.is_valid():
             form.save(commit=True)
             job_key = form.instance.job_key
-            send_email([form.instance.email], job_key, form.instance.parameter_file_url)
+            url_parameter = get_absolute_site_url(request) + settings.MEDIA_URL + form.instance.parameter_file_url
+            url_output = get_absolute_site_url(request) + settings.MEDIA_URL + job_key + '/galaxia_' + job_key
+            send_email([form.instance.email], job_key, url_parameter,url_output)
             # return HttpResponseRedirect(reverse('job_detail', args=(job_key,)))
             return redirect(reverse("job_detail", args=(job_key,)))
         else:
