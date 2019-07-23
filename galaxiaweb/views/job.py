@@ -12,7 +12,7 @@ from ..forms.job_parameter import JobParameterForm
 from ..models import JobParameter
 from ..utils.tasks import run_galaxia, send_success_notification_email, send_timeout_notification_email
 from ..utils.constants import TASK_SUCCESS, TASK_TIMEOUT
-
+from ..utils.send_emails import send_email, get_absolute_site_url
 
 def new_job(request):
     """
@@ -26,6 +26,10 @@ def new_job(request):
         if form.is_valid():
             form.save(commit=True)
             job_key = form.instance.job_key
+            url_parameter = get_absolute_site_url(request) + settings.MEDIA_URL + form.instance.parameter_file_url
+            url_output = get_absolute_site_url(request) + settings.MEDIA_URL + job_key + '/galaxia_' + job_key
+            send_email([form.instance.email], job_key, url_parameter,url_output)
+
             return redirect(reverse("job_detail", args=(job_key,)))
         else:
             messages.error(request, 'Please fix errors before proceeding')

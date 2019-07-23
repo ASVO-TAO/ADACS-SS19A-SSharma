@@ -182,6 +182,7 @@ LOGGING = {
 }
 
 ROOT_SUBDIRECTORY_PATH = ''
+HTTP_PROTOCOL = 'http'
 
 SITE_URL = ''
 
