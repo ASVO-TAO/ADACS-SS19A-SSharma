@@ -27,7 +27,7 @@ def new_job(request):
         if form.is_valid():
             form.save(commit=True)
             job_key = form.instance.job_key
-            send_email('leonie.chevalier.le.ch@gmail.com', '12hzerwuer29')
+            send_email([form.instance.email], job_key, form.instance.parameter_file_url)
             # return HttpResponseRedirect(reverse('job_detail', args=(job_key,)))
             return redirect(reverse("job_detail", args=(job_key,)))
         else:
@@ -57,11 +57,11 @@ def job_detail(request, job_key):
     parameter_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, job.job_key)
     output_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, f'galaxia_{job.job_key}')
 
-    try:
-        print(request.session['job_key'])
-        print(request.session['fired'])
-    except:
-        pass
+    #try:
+    #    print(request.session['job_key'])
+    #    print(request.session['fired'])
+    #except:
+    #    pass
 
     if request.session['job_key'] == job_key and not request.session['fired']:
         #result = run_galaxia.delay(parameter_file_path)
