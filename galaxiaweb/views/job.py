@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..forms.job_parameter import JobParameterForm
 from ..models import JobParameter
 from ..utils.tasks import run_galaxia
+from ..utils.constants import TASK_SUCCESS, TASK_TIMEOUT
 
 
 def new_job(request):
@@ -44,22 +45,24 @@ def new_job(request):
 
 def job_detail(request, job_key):
 
-    if 'job_key' not in request.session:
-        request.session['job_key'] = job_key
-        request.session['fired'] = False
-
     job = get_object_or_404(JobParameter, job_key=job_key)
     parameter_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, job.job_key)
-    output_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, f'galaxia_{job.job_key}')
+    output_file_url = None
+    timeout = False
 
-    if request.session['job_key'] == job_key and not request.session['fired']:
-        result = run_galaxia.delay(parameter_file_path)
-        request.session['fired'] = True
-        print('job fired')
+    if job_key not in request.session:
+        output_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, f'galaxia_{job.job_key}')
+        task = run_galaxia.delay(parameter_file_path, output_file_path)
+        request.session[job_key] = task.id
+    else:
+        task = run_galaxia.AsyncResult(request.session[job_key])
+        result = task.get()
 
-    output = None
+        if result == TASK_SUCCESS:
+            output_file_url = job.job_key + f'/galaxia_{job.job_key}'
+        elif result == TASK_TIMEOUT:
+            timeout = True
 
-    if os.path.exists(output_file_path):
-        output = job.job_key + f'/galaxia_{job.job_key}'
-
-    return render(request, 'galaxiaweb/job/job_detail.html', {'job': job, 'output': output})
+    return render(request, 'galaxiaweb/job/job_detail.html', {'job': job,
+                                                              'timeout': timeout,
+                                                              'output': output_file_url})

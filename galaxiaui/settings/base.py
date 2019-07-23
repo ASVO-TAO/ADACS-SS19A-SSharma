@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'galaxiaweb',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -195,9 +196,16 @@ MEDIA_URL = '/media/'
 
 CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
 
+CELERY_RESULT_BACKEND = 'django-db'
+
+# CELERY_ANNOTATIONS = {'tasks.run_galaxia': {'time_limit': 30}}
+
+
 # GALAXIA Settings
 
 GALAXIA_CODE_DATA_DIR = '/work1/sharma/GsynthData/'
+
+RUN_GALAXIA_COMMAND = ['python', '/home/eman/PycharmProjects/generate-galaxia-output.py']
 
 
 

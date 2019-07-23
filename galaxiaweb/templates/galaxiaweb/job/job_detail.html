@@ -9,6 +9,9 @@
                 {% if output %}
                     <p>Job <b>{{ job.job_key }}</b> was submitted and finished successfully</p>
                     <p>Download output file <a href="{% get_media_prefix %}{{output}}">here</a>.</p>
+                {% elif timeout %}
+                    <p>Job <b>{{ job.job_key }}</b> is taking too long and will be stopped!</p>
+                    <p>Please try again using different parameters. Alternatively, you can download galaxia code from <a href="http://www.galaxia.sourceforge.net">www.galaxia.sourceforge.net</a> and run it locally. </p>
                 {% else %}
                     <p>Job <b>{{ job.job_key }}</b> is currently running. Reload the page to get the output file once ready.</p>
                 {% endif %}
