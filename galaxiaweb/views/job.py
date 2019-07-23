@@ -26,9 +26,6 @@ def new_job(request):
         if form.is_valid():
             form.save(commit=True)
             job_key = form.instance.job_key
-            url_parameter = get_absolute_site_url(request) + settings.MEDIA_URL + form.instance.parameter_file_url
-            url_output = get_absolute_site_url(request) + settings.MEDIA_URL + job_key + '/galaxia_' + job_key
-            send_email([form.instance.email], job_key, url_parameter,url_output)
 
             return redirect(reverse("job_detail", args=(job_key,)))
         else:
@@ -55,6 +52,8 @@ def job_detail(request, job_key):
     output_file_url = None
     timeout = False
 
+    result = None
+
     if job_key not in request.session:
         output_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, f'galaxia_{job.job_key}.ebf')
         task = run_galaxia.delay(parameter_file_path, output_file_path)
@@ -63,15 +62,18 @@ def job_detail(request, job_key):
         task = run_galaxia.AsyncResult(request.session[job_key])
         result = task.get()
 
+        url_parameter = get_absolute_site_url(request) + settings.MEDIA_URL + job.parameter_file_url
+        url_output = get_absolute_site_url(request) + settings.MEDIA_URL + job_key + '/galaxia_' + job_key + '.ebf'
+
         if result == TASK_SUCCESS:
             output_file_url = job.job_key + f'/galaxia_{job.job_key}'
             if job.email:
-                send_success_notification_email.delay(job.email)
+                send_success_notification_email.delay(job.email, job.job_key, url_parameter, url_output)
 
         elif result == TASK_TIMEOUT:
             timeout = True
             if job.email:
-                send_timeout_notification_email.delay(job.email)
+                send_timeout_notification_email.delay(job.email, job.job_key, url_parameter, url_output)
 
     return render(request, 'galaxiaweb/job/job_detail.html', {'job': job,
                                                               'timeout': timeout,

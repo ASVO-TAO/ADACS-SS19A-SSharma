@@ -7,10 +7,8 @@ import subprocess
 
 from django.conf import settings
 
-from .constants import TASK_TIMEOUT, TASK_SUCCESS, TASK_FAIL, TASK_RUNNING
-
-# register celery worker with Rabbitmq as message queue and rpc(rabbitmq) as backend to check results
-# app = Celery('galaxiaweb.utils.tasks', backend='rpc://', broker='pyamqp://guest@localhost//')
+from .constants import TASK_TIMEOUT, TASK_SUCCESS, TASK_FAIL
+from .send_emails import send_email
 
 
 def check_output_file_generated(outputfilepath):
@@ -47,16 +45,18 @@ def run_galaxia(parameterfilepath, outputfilepath):
 
 
 @shared_task
-def send_success_notification_email(address=None):
+def send_success_notification_email(address=None, jobKey=None, parameterFileURL=None, outputFileURL=None):
     if address:
+        send_email([address], jobKey, parameterFileURL, outputFileURL)
         print(f'Success Email sent to: {address}')
     else:
         print('No email provided')
 
 
 @shared_task
-def send_timeout_notification_email(address=None):
+def send_timeout_notification_email(address=None, jobKey=None, parameterFileURL=None, outputFileURL=None):
     if address:
+        send_email([address], jobKey, parameterFileURL, outputFileURL)
         print(f'Timeout Email sent to: {address}')
     else:
         print('No email provided')

@@ -19,7 +19,7 @@
                     <p>Download parameter file <a href="{% get_media_prefix %}{{job.parameter_file_url}}">here</a>.</p>
                 {% endif %}
                 {% if job.email %}
-                    <p>An email will be sent to {{job.email}} notifying of job status.</p>
+                    <p>An email will be sent to <b>{{job.email}}</b> notifying of job status.</p>
                 {% endif %}
             </div>
         {% endif %}
