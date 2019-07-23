@@ -2,7 +2,7 @@ from django.conf import settings
 
 
 def send_email(to,job_key,link, output_link): #needs url
-    ''' sends email using a Jinja HTML template '''
+    ''' sends email using a HTML template '''
     # Import the email modules
 
     from django.core.mail import EmailMultiAlternatives
