@@ -18,7 +18,7 @@ def send_email(to,job_key,link, output_link): #needs url
 
 
     txt_template = ('Dear Galaxia User,\n Your job {{ job_id }} is complete. \n'
-                    ' You can download the parameter file here: {{ job_link }} and \n'
+                    ' You can download the parameter file here: {{ job_link }}. \n'
                     ' And the output file by following this link: {{ output_link }}')
 
 
