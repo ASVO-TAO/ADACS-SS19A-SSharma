@@ -11,14 +11,6 @@ from .constants import TASK_TIMEOUT, TASK_SUCCESS, TASK_FAIL
 from .send_emails import send_email
 
 
-# class RunGalaxiaCallbackTask(Task):
-#     def on_success(self, retval, task_id, args, kwargs):
-#         send_notification_email.delay(address='emanehab99@yahoo.com')
-#
-#     def on_failure(self, exc, task_id, args, kwargs, einfo):
-#         pass
-
-
 def check_output_file_generated(outputfilepath):
 
     created = False
@@ -28,7 +20,6 @@ def check_output_file_generated(outputfilepath):
     return TASK_SUCCESS
 
 
-# @shared_task(base=RunGalaxiaCallbackTask)
 @shared_task
 def run_galaxia(parameterfilepath, outputfilepath):
 
@@ -60,10 +51,3 @@ def send_notification_email(jobstate, address=None, jobKey=None, parameterFileUR
         send_email([address], jobKey, parameterFileURL, outputFileURL)
     else:
         print('No email provided')
-
-
-@shared_task
-def test_chain_task(jobstate, param=None):
-    print(jobstate)
-    print(f'other parameter: {param}')
-    return jobstate
