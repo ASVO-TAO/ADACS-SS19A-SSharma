@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms.job_parameter import JobParameterForm
 from ..models import JobParameter
-from ..utils.tasks import run_galaxia, send_notification_email, test_chain_task
+from ..utils.tasks import run_galaxia, send_notification_email
 from ..utils.constants import TASK_SUCCESS, TASK_TIMEOUT
 from ..utils.send_emails import send_email, get_absolute_site_url
 
