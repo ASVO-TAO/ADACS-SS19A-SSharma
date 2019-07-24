@@ -22,8 +22,6 @@ ROOT_SUBDIRECTORY_PATH = 'projects/galaxia/live/'
 
 LOGIN_REDIRECT_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'jobs'
 LOGOUT_REDIRECT_URL = '/' + ROOT_SUBDIRECTORY_PATH
-LOGIN_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'accounts/login'
-
 
 STATIC_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'static/'
 SITE_URL = 'https://supercomputing.swin.edu.au/projects/galaxia/live'

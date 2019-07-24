@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms.job_parameter import JobParameterForm
 from ..models import JobParameter
-from ..utils.tasks import run_galaxia, send_success_notification_email, send_timeout_notification_email
+from ..utils.tasks import run_galaxia, send_notification_email, test_chain_task
 from ..utils.constants import TASK_SUCCESS, TASK_TIMEOUT
 from ..utils.send_emails import send_email, get_absolute_site_url
 
@@ -53,27 +53,29 @@ def job_detail(request, job_key):
     timeout = False
 
     result = None
+    url_parameter = get_absolute_site_url(request) + settings.MEDIA_URL + job.parameter_file_url
+    url_output = get_absolute_site_url(request) + settings.MEDIA_URL + job_key + '/galaxia_' + job_key + '.ebf'
 
     if job_key not in request.session:
         output_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, f'galaxia_{job.job_key}.ebf')
-        task = run_galaxia.delay(parameter_file_path, output_file_path)
+
+        task = run_galaxia.apply_async((parameter_file_path, output_file_path),
+                                       link=send_notification_email.s(address=job.email,
+                                                                      jobKey=job.job_key,
+                                                                      parameterFileURL=url_parameter,
+                                                                      outputFileURL=url_output))
+
         request.session[job_key] = task.id
+
     else:
         task = run_galaxia.AsyncResult(request.session[job_key])
         result = task.get()
 
-        url_parameter = get_absolute_site_url(request) + settings.MEDIA_URL + job.parameter_file_url
-        url_output = get_absolute_site_url(request) + settings.MEDIA_URL + job_key + '/galaxia_' + job_key + '.ebf'
-
         if result == TASK_SUCCESS:
             output_file_url = job.job_key + f'/galaxia_{job.job_key}'
-            if job.email:
-                send_success_notification_email.delay(job.email, job.job_key, url_parameter, url_output)
 
         elif result == TASK_TIMEOUT:
             timeout = True
-            if job.email:
-                send_timeout_notification_email.delay(job.email, job.job_key, url_parameter, url_output)
 
     return render(request, 'galaxiaweb/job/job_detail.html', {'job': job,
                                                               'timeout': timeout,

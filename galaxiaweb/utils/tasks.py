@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from celery import shared_task
+from celery import shared_task, Task
 from celery.exceptions import SoftTimeLimitExceeded
 
 import os
@@ -11,6 +11,14 @@ from .constants import TASK_TIMEOUT, TASK_SUCCESS, TASK_FAIL
 from .send_emails import send_email
 
 
+# class RunGalaxiaCallbackTask(Task):
+#     def on_success(self, retval, task_id, args, kwargs):
+#         send_notification_email.delay(address='emanehab99@yahoo.com')
+#
+#     def on_failure(self, exc, task_id, args, kwargs, einfo):
+#         pass
+
+
 def check_output_file_generated(outputfilepath):
 
     created = False
@@ -20,6 +28,7 @@ def check_output_file_generated(outputfilepath):
     return TASK_SUCCESS
 
 
+# @shared_task(base=RunGalaxiaCallbackTask)
 @shared_task
 def run_galaxia(parameterfilepath, outputfilepath):
 
@@ -45,18 +54,16 @@ def run_galaxia(parameterfilepath, outputfilepath):
 
 
 @shared_task
-def send_success_notification_email(address=None, jobKey=None, parameterFileURL=None, outputFileURL=None):
+def send_notification_email(jobstate, address=None, jobKey=None, parameterFileURL=None, outputFileURL=None):
+    print(f'Run Galaxia: {jobstate}')
     if address:
         send_email([address], jobKey, parameterFileURL, outputFileURL)
-        print(f'Success Email sent to: {address}')
     else:
         print('No email provided')
 
 
 @shared_task
-def send_timeout_notification_email(address=None, jobKey=None, parameterFileURL=None, outputFileURL=None):
-    if address:
-        send_email([address], jobKey, parameterFileURL, outputFileURL)
-        print(f'Timeout Email sent to: {address}')
-    else:
-        print('No email provided')
+def test_chain_task(jobstate, param=None):
+    print(jobstate)
+    print(f'other parameter: {param}')
+    return jobstate
