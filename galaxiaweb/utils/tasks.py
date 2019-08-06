@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from celery import shared_task, Task
+from celery import shared_task
 from celery.exceptions import SoftTimeLimitExceeded
 
 import os
