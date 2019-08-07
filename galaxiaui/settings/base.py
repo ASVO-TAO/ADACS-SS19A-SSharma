@@ -193,7 +193,7 @@ MEDIA_URL = '/media/'
 
 # Celery settings
 
-CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
+CELERY_BROKER_URL = os.environ['CELERY_BROKER'] # 'pyamqp://guest:guest@localhost//'
 
 CELERY_RESULT_BACKEND = 'django-db'
 

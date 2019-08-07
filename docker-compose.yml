@@ -1,0 +1,43 @@
+version: "3"
+services:
+  web:
+    container_name: galaxia_ui
+    build: ./
+    env_file: &envfile
+      - env.env
+    command: >
+      bash -c "mkdir -p log
+      && python3 dev_manage.py migrate
+      && python3 dev_manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./:/sharma
+      - ./galaxia_web/static/:/static/
+      - ./files/:/files/
+    ports:
+      - "8000:8000"
+    depends_on:
+#      - galaxia
+      - rabbitmq
+
+#  galaxia:
+#    container_name: galaxia_backend
+#    build: ./
+#    command:
+#    volumes:
+
+  rabbitmq:
+    container_name: galaxia_rabbitmq
+    image: rabbitmq:3
+    env_file: *envfile
+    ports:
+      - "5672:5672"
+
+  celery:
+    build: ./
+    restart: "no"
+    env_file: *envfile
+    command: celery -A galaxiaui worker -l info
+    volumes:
+      - ./:/sharma
+    depends_on:
+      - rabbitmq
