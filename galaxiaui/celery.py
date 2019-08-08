@@ -4,6 +4,7 @@ import os
 from celery import Celery
 
 # set the default Django settings module for the 'celery' program.
+print(f'Environment is: {os.environ["django_env"]}')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'galaxiaui.settings.development')
 
 app = Celery('galaxiaui')

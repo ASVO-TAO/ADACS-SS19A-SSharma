@@ -1,7 +1,7 @@
 version: "3"
 services:
   web:
-    container_name: galaxia_ui
+#    container_name: galaxia_ui
     build: ./
     env_file: &envfile
       - env.env
@@ -10,8 +10,8 @@ services:
       && python3 dev_manage.py migrate
       && python3 dev_manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./:/sharma
-      - ./galaxia_web/static/:/static/
+      - ./:/code
+      - ./galaxiaweb/static/:/static/
       - ./files/:/files/
     ports:
       - "8000:8000"
@@ -26,11 +26,11 @@ services:
 #    volumes:
 
   rabbitmq:
-    container_name: galaxia_rabbitmq
+#    container_name: galaxia_rabbitmq
     image: rabbitmq:3
     env_file: *envfile
     ports:
-      - "5672:5672"
+      - "5671:5671"
 
   celery:
     build: ./
@@ -38,6 +38,6 @@ services:
     env_file: *envfile
     command: celery -A galaxiaui worker -l info
     volumes:
-      - ./:/sharma
+      - ./:/code
     depends_on:
       - rabbitmq

@@ -202,9 +202,11 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 # GALAXIA Settings
 
-GALAXIA_CODE_DATA_DIR = '/work1/sharma/GsynthData/'
+GALAXIA_CODE_DATA_DIR = os.environ['GALAXIA_CODE_DATA_DIR']
 
-RUN_GALAXIA_COMMAND = ['python', '/home/eman/PycharmProjects/generate-galaxia-output.py']
+RUN_GALAXIA_COMMAND = ['galaxia', '-r']
+
+# ['python', '/home/eman/PycharmProjects/generate-galaxia-output.py']
 
 
 

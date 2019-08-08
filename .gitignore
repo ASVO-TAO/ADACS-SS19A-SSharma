@@ -145,3 +145,5 @@ pip-selfcheck.json
 
 files/*
 !files/.gitkeep
+
+/galaxia
