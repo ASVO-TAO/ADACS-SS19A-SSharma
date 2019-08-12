@@ -202,7 +202,7 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 # GALAXIA Settings
 
-GALAXIA_CODE_DATA_DIR = os.environ['GALAXIA_CODE_DATA_DIR']
+GALAXIA_CODE_DATA_DIR = '/GalaxiaData/' # os.environ['GALAXIA_CODE_DATA_DIR']
 
 RUN_GALAXIA_COMMAND = ['galaxia', '-r']
 

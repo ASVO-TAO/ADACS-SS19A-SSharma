@@ -1,7 +1,6 @@
 version: "3"
 services:
   web:
-#    container_name: galaxia_ui
     build: ./
     env_file: &envfile
       - env.env
@@ -16,17 +15,28 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-#      - galaxia
       - rabbitmq
 
 #  galaxia:
-#    container_name: galaxia_backend
 #    build: ./
-#    command:
-#    volumes:
+#    command: >
+#      bash -c " cd /code/galaxia
+#                && tar -zxvf galaxia-0.8.1.tar.gz
+#                && cd galaxia-0.8.1
+#                && ./configure --datadir=/GalaxiaData
+#                && make
+#                && make install
+#                && cp -r GalaxiaData /
+#                && cd /code/galaxia
+#                && tar -zxvf ebfpy-0.0.14.tar.gz
+#                && cd ebfpy-0.0.14
+#                && python setup.py install --install-scripts=/bin/
+#                && echo Y | galaxia -s warp
+#                && rmdir /code/galaxia/galaxia-0.8.1"
+#    depends_on:
+#      - web
 
   rabbitmq:
-#    container_name: galaxia_rabbitmq
     image: rabbitmq:3
     env_file: *envfile
     ports:
