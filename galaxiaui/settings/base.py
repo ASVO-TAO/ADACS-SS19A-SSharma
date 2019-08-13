@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'galaxiaui.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '../db.sqlite3'),
     }
 }
 
@@ -204,9 +204,7 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 GALAXIA_CODE_DATA_DIR = '/GalaxiaData/' # os.environ['GALAXIA_CODE_DATA_DIR']
 
-RUN_GALAXIA_COMMAND = ['galaxia', '-r']
-
-# ['python', '/home/eman/PycharmProjects/generate-galaxia-output.py']
+RUN_GALAXIA_COMMAND = ['python', 'generate-galaxia-output.py']
 
 
 
