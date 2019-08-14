@@ -14,11 +14,15 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
-app.conf.update(
-    task_soft_time_limit=300,
-    task_time_limit=360,
-)
+# app.conf.update(
+#     task_soft_time_limit=360,
+#     task_time_limit=400,
+# )
 
+app.conf.update(
+    task_soft_time_limit=os.environ['CELERY_TASK_SOFT_TIME_LIMIT'],
+    task_time_limit=os.environ['CELERY_TASK_TIME_LIMIT'],
+)
 
 @app.task(bind=True)
 def debug_task(self):

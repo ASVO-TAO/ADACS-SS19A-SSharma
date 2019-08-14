@@ -172,7 +172,7 @@ class JobParameter(models.Model):
         params_dict['outputFile'] = f"galaxia_{self.job_key}"
         params_dict['modelFile'] = NAME_VALUES[self.model_file]
         params_dict['codeDataDir'] = settings.GALAXIA_CODE_DATA_DIR
-        params_dict['outputDir'] = './'
+        params_dict['outputDir'] = f'{settings.GALAXIA_OUTPUT_DIR}{self.job_key}/'
         params_dict['photoSys'] = '{}/{}'.format(NAME_VALUES[self.photo_sys_1], NAME_VALUES[self.photo_sys_2])
         params_dict['magcolorNames'] = '{},{},{}'.format(NAME_VALUES[self.magnitude_name],
                                                          NAME_VALUES[self.magnitude_name_1],

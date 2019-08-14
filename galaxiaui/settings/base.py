@@ -193,18 +193,20 @@ MEDIA_URL = '/media/'
 
 # Celery settings
 
-CELERY_BROKER_URL = os.environ['CELERY_BROKER'] # 'pyamqp://guest:guest@localhost//'
+CELERY_BROKER_URL = os.environ['CELERY_BROKER']
 
 CELERY_RESULT_BACKEND = 'django-db'
 
 
-
-
 # GALAXIA Settings
 
-GALAXIA_CODE_DATA_DIR = '/GalaxiaData/' # os.environ['GALAXIA_CODE_DATA_DIR']
+GALAXIA_CODE_DATA_DIR = os.environ['GALAXIA_CODE_DATA_DIR']
 
-RUN_GALAXIA_COMMAND = ['python', 'generate-galaxia-output.py']
+RUN_GALAXIA_COMMAND = ['galaxia', '-r']
+
+GALAXIA_OUTPUT_DIR = os.environ['GALAXIA_OUTPUT_DIR']
+
+# RUN_GALAXIA_COMMAND = ['python', 'generate-galaxia-output.py']
 
 
 
