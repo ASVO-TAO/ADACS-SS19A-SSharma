@@ -16,7 +16,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "../static/"),
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
-    os.path.join(BASE_DIR, "../accounts/static/"),
+    # os.path.join(BASE_DIR, "../accounts/static/"),
 ]
 
 ROOT_SUBDIRECTORY_PATH = 'projects/galaxia/live/'
