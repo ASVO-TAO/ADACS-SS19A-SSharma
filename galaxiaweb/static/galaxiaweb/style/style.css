@@ -60,6 +60,11 @@ body {
     color: white;
 }
 
+.highlighted {
+    font-weight: bold;
+    background-color: #f5dd5d;
+}
+
 /********************************************/
 /*                                          */
 /*                 Navbar                    */

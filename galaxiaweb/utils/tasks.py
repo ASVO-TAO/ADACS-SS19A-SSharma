@@ -16,7 +16,7 @@ def check_output_file_generated(outputfilepath):
     created = False
     while not created:
         created = os.path.exists(outputfilepath)
-    print('output file generated')
+    # print('output file generated')
     return TASK_SUCCESS
 
 

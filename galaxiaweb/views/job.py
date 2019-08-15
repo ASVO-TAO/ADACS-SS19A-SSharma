@@ -72,7 +72,7 @@ def job_detail(request, job_key):
         result = task.get()
 
         if result == TASK_SUCCESS:
-            output_file_url = job.job_key + f'/galaxia_{job.job_key}'
+            output_file_url = job.job_key + f'/galaxia_{job.job_key}.ebf'
 
         elif result == TASK_TIMEOUT:
             timeout = True

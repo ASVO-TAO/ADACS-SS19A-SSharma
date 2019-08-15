@@ -135,7 +135,7 @@ class JobParameter(models.Model):
                                         default=GAIA_GBP)
 
     geometry_options = models.CharField(choices=GEOMETRY_OPTIONS, max_length=55, blank=False, null=False,
-                                        default=ALL_SKY)
+                                        default=PATCH)
 
     longitude = models.FloatField(blank=False, null=False, default=0,
                                   validators=[MinValueValidator(0), MaxValueValidator(360)]

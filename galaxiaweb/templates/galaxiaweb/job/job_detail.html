@@ -13,7 +13,7 @@
                     <p>Job <b>{{ job.job_key }}</b> is taking too long and will be stopped!</p>
                     <p>Please try again using different parameters. Alternatively, you can download galaxia code from <a href="http://www.galaxia.sourceforge.net">www.galaxia.sourceforge.net</a> and run it locally. </p>
                 {% else %}
-                    <p>Job <b>{{ job.job_key }}</b> is currently running. Reload the page to get the output file once ready.</p>
+                    <p>Job <b>{{ job.job_key }}</b> is currently running. <span class="highlighted">Reload the page to get the output file once ready.</span></p>
                 {% endif %}
                 {% if job.parameter_file_url %}
                     <p>Download parameter file <a href="{% get_media_prefix %}{{job.parameter_file_url}}">here</a>.</p>
