@@ -183,10 +183,10 @@ LOGGING = {
     },
 }
 
-ROOT_SUBDIRECTORY_PATH = ''
+ROOT_SUBDIRECTORY_PATH = 'projects/live/galaxia/'
 HTTP_PROTOCOL = 'http'
 
-SITE_URL = ''
+SITE_URL = 'projects/live/galaxia/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
 
