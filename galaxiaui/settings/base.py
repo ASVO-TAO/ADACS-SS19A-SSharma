@@ -129,6 +129,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
 ]
 
+LOG_DIRECTORY = os.path.join(BASE_DIR, '../log')
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -188,7 +190,7 @@ SITE_URL = ''
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'media/'
 
 
 # Celery settings
