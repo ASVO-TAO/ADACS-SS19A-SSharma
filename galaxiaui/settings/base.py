@@ -183,7 +183,7 @@ LOGGING = {
     },
 }
 
-ROOT_SUBDIRECTORY_PATH = 'projects/live/galaxia/'
+ROOT_SUBDIRECTORY_PATH = ''
 HTTP_PROTOCOL = 'http'
 
 SITE_URL = ''
