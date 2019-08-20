@@ -13,7 +13,7 @@ services:
       - ./galaxiaweb/static/:/static/
       - ./files/:/files/
     ports:
-      - "8000:8000"
+      - "8050:8000"
     depends_on:
       - rabbitmq
 
