@@ -25,9 +25,10 @@ urlpatterns = [
                 path('admin/', admin.site.urls),
                 path('', include('galaxiaweb.urls')),
             ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-            + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
         )
     )
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'galaxiaweb.views.common.error_404_view'
