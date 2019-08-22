@@ -7,7 +7,7 @@
         location.reload();
         }, 10000);
     </script>
-    <div class="row static-content">
+    <div class="row static-content height80vh">
         {% if job.job_key %}
 
             <div class="col col-12">
@@ -18,7 +18,7 @@
                     <p>Your job is taking too long and will be stopped!</p>
                     <p>Please try again using different parameters. Alternatively, you can download galaxia code from <a href="http://www.galaxia.sourceforge.net">www.galaxia.sourceforge.net</a> and run it locally. </p>
                 {% else %}
-                    <p>Your job has been submitted! <div><span class="highlighted">Reload the page to get the output file once ready.</span></div></p>
+                    <p>Your job has been submitted! <div><span class="highlighted">The page will reload automatically when output file is ready for download.</span></div></p>
                 {% endif %}
                 {% if job.parameter_file_url %}
                     <p>Download parameter file <a href="{% get_media_prefix %}{{job.parameter_file_url}}">here</a>.</p>
