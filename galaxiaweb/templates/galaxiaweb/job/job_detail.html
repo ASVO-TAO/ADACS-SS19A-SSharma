@@ -2,6 +2,11 @@
 {% load static %}
 {% block content %}
     {% get_media_prefix as media_prefix %}
+    <script>
+    window.setTimeout(function(){
+        location.reload();
+        }, 10000);
+    </script>
     <div class="row static-content">
         {% if job.job_key %}
 
