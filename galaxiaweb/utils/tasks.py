@@ -20,7 +20,6 @@ def cleanup_timeout_task(outputfilepath):
         print(f'Cleaning up {dirname}')
         tmpfiles = glob.glob(os.path.join(dirname, '*galaxia_*ebf.tmp*'))
         for f in tmpfiles:
-            print(f)
             if os.path.isfile(f):
                 os.remove(f)
     except Exception as e:
@@ -65,6 +64,6 @@ def run_galaxia(parameterfilepath, outputfilepath):
 def send_notification_email(jobstate, address=None, jobKey=None, parameterFileURL=None, outputFileURL=None):
     print(f'Run Galaxia: {jobstate}')
     if address:
-        send_email([address], jobKey, parameterFileURL, outputFileURL)
+        send_email([address], jobKey, parameterFileURL, outputFileURL, jobstate)
     else:
         print('No email provided')
