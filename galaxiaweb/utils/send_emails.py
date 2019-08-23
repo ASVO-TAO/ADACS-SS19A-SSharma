@@ -31,6 +31,6 @@ def get_absolute_site_url(request):
     else:
         protocol = settings.HTTP_PROTOCOL
     address = protocol + '://' + site_name
-    if settings.ROOT_SUBDIRECTORY_PATH != '':
-        address += '/' + settings.ROOT_SUBDIRECTORY_PATH[:-1]
+    # if settings.ROOT_SUBDIRECTORY_PATH != '':
+    #     address += '/' + settings.ROOT_SUBDIRECTORY_PATH[:-1]
     return address
