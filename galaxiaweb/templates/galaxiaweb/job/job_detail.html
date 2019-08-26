@@ -3,9 +3,10 @@
 {% block content %}
     {% get_media_prefix as media_prefix %}
     <script>
-    window.setTimeout(function(){
+    const mytimout = window.setTimeout(function(){
         location.reload();
-        }, 10000);
+        }, 30000);
+    let finished = false;
     </script>
     <div class="row static-content height80vh">
         {% if job.job_key %}
@@ -14,9 +15,15 @@
                 {% if output %}
                     <p>Your job was submitted and finished successfully</p>
                     <p>Download output file <a href="{% get_media_prefix %}{{output}}">here</a>.</p>
+                    <script>
+                        finished = true;
+                    </script>
                 {% elif timeout %}
                     <p>Your job is taking too long and will be stopped!</p>
                     <p>Please try again using different parameters. Alternatively, you can download galaxia code from <a href="http://www.galaxia.sourceforge.net">www.galaxia.sourceforge.net</a> and run it locally. </p>
+                    <script>
+                        finished = true;
+                    </script>
                 {% else %}
                     <p>Your job has been submitted! <div><span class="highlighted">The page will reload automatically when output file is ready for download.</span></div></p>
                 {% endif %}
@@ -29,4 +36,10 @@
             </div>
         {% endif %}
     </div>
+    <script>
+        // check if the job finished successfully or timed out to stop automatic reloading
+        if(finished === true){
+            clearTimeout(mytimout);
+        }
+    </script>
 {% endblock %}
