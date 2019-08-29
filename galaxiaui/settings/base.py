@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'galaxiaui.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '../db.sqlite3'),
     }
 }
 
@@ -120,7 +120,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, '../static-files/')
 
@@ -128,6 +128,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "../static/"),
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
 ]
+
+LOG_DIRECTORY = os.path.join(BASE_DIR, '../log')
 
 LOGGING = {
     'version': 1,
@@ -188,23 +190,29 @@ SITE_URL = ''
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'media/'
+
+STATIC_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'static/'
+
+
 
 
 # Celery settings
 
-CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
+CELERY_BROKER_URL = os.environ['CELERY_BROKER']
 
 CELERY_RESULT_BACKEND = 'django-db'
 
 
-
-
 # GALAXIA Settings
 
-GALAXIA_CODE_DATA_DIR = '/work1/sharma/GsynthData/'
+GALAXIA_CODE_DATA_DIR = os.environ['GALAXIA_CODE_DATA_DIR']
 
-RUN_GALAXIA_COMMAND = ['python', '/home/eman/PycharmProjects/generate-galaxia-output.py']
+RUN_GALAXIA_COMMAND = ['galaxia', '-r']
+
+GALAXIA_OUTPUT_DIR = os.environ['GALAXIA_OUTPUT_DIR']
+
+# RUN_GALAXIA_COMMAND = ['python', 'generate-galaxia-output.py']
 
 
 

@@ -135,7 +135,7 @@ class JobParameter(models.Model):
                                         default=GAIA_GBP)
 
     geometry_options = models.CharField(choices=GEOMETRY_OPTIONS, max_length=55, blank=False, null=False,
-                                        default=ALL_SKY)
+                                        default=PATCH)
 
     longitude = models.FloatField(blank=False, null=False, default=0,
                                   validators=[MinValueValidator(0), MaxValueValidator(360)]
@@ -169,10 +169,10 @@ class JobParameter(models.Model):
     def to_params_dict(self):
 
         params_dict = dict()
-        params_dict['outputFile'] = f"galaxia_{self.job_key}"
+        params_dict['outputFile'] = 'galaxia_output'
         params_dict['modelFile'] = NAME_VALUES[self.model_file]
         params_dict['codeDataDir'] = settings.GALAXIA_CODE_DATA_DIR
-        params_dict['outputDir'] = './'
+        params_dict['outputDir'] = f'{settings.GALAXIA_OUTPUT_DIR}{self.job_key}/'
         params_dict['photoSys'] = '{}/{}'.format(NAME_VALUES[self.photo_sys_1], NAME_VALUES[self.photo_sys_2])
         params_dict['magcolorNames'] = '{},{},{}'.format(NAME_VALUES[self.magnitude_name],
                                                          NAME_VALUES[self.magnitude_name_1],
@@ -208,13 +208,13 @@ class JobParameter(models.Model):
         if not os.path.exists(storage_location):
             os.makedirs(storage_location)
 
-        parameter_file_path = os.path.join(storage_location, self.job_key)
+        parameter_file_path = os.path.join(storage_location, 'galaxia_param')
 
         with open(parameter_file_path, 'w') as f:
             f.write(content)
             f.writelines('\n')
 
-        self.parameter_file_url = self.job_key + "/" + self.job_key
+        self.parameter_file_url = self.job_key + "/galaxia_param"
         self.parameters = bytes(content, encoding='utf-8')
 
 

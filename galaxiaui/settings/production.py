@@ -21,13 +21,10 @@ STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "../accounts/static/"),
 ]
 
-ROOT_SUBDIRECTORY_PATH = 'projects/galaxia/live/'
-
-LOGIN_REDIRECT_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'jobs'
-LOGOUT_REDIRECT_URL = '/' + ROOT_SUBDIRECTORY_PATH
+ROOT_SUBDIRECTORY_PATH = 'projects/live/galaxia/'
 
 STATIC_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'static/'
-SITE_URL = 'https://supercomputing.swin.edu.au/projects/galaxia/live'
+SITE_URL = 'https://supercomputing.swin.edu.au/projects/live/galaxia'
 
 
 MEDIA_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'media/'
