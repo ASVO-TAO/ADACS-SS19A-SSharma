@@ -26,7 +26,6 @@ services:
       - ./:/code
       - ./static:/static
 
-=======
 version: "3"
 services:
   web:
