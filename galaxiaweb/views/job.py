@@ -71,13 +71,13 @@ def job_detail(request, job_key):
         task = run_galaxia.AsyncResult(request.session[job_key])
         result = task.get()
 
-        if result == TASK_FAIL_OTHER:
+        if result == TASK_SUCCESS:
             output_file_url = job.job_key + '/galaxia_output.ebf'
 
         elif result == TASK_TIMEOUT:
             error_code = 2
 
-        elif result == TASK_SUCCESS:
+        elif result == TASK_FAIL:
             error_code = 1
         # example of another failure/error type
         elif result == TASK_FAIL_OTHER:
