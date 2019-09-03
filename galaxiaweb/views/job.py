@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..forms.job_parameter import JobParameterForm
 from ..models import JobParameter
 from ..utils.tasks import run_galaxia, send_notification_email
-from ..utils.constants import TASK_SUCCESS, TASK_TIMEOUT
+from ..utils.constants import TASK_SUCCESS, TASK_TIMEOUT, TASK_FAIL, TASK_FAIL_OTHER
 from ..utils.send_emails import send_email, get_absolute_site_url
 
 def new_job(request):
@@ -50,7 +50,7 @@ def job_detail(request, job_key):
 
     parameter_file_path = os.path.join(settings.MEDIA_ROOT, job.job_key, 'galaxia_param')
     output_file_url = None
-    timeout = False
+    error_code = 0
 
     result = None
     url_parameter = get_absolute_site_url(request) + settings.MEDIA_URL + job.parameter_file_url
@@ -71,12 +71,18 @@ def job_detail(request, job_key):
         task = run_galaxia.AsyncResult(request.session[job_key])
         result = task.get()
 
-        if result == TASK_SUCCESS:
+        if result == TASK_FAIL_OTHER:
             output_file_url = job.job_key + '/galaxia_output.ebf'
 
         elif result == TASK_TIMEOUT:
-            timeout = True
+            error_code = 2
+
+        elif result == TASK_SUCCESS:
+            error_code = 1
+        # example of another failure/error type
+        elif result == TASK_FAIL_OTHER:
+            error_code = 3
 
     return render(request, 'galaxiaweb/job/job_detail.html', {'job': job,
-                                                              'timeout': timeout,
+                                                              'error_code': error_code,
                                                               'output': output_file_url})

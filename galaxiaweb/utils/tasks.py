@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task, Task
-from celery.exceptions import SoftTimeLimitExceeded
+from celery.exceptions import SoftTimeLimitExceeded, TaskRevokedError
 from celery.worker.request import Request
 
 import os
@@ -9,7 +9,7 @@ import subprocess
 
 from django.conf import settings
 
-from .constants import TASK_TIMEOUT, TASK_SUCCESS, TASK_FAIL
+from .constants import TASK_TIMEOUT, TASK_SUCCESS, TASK_FAIL , TASK_FAIL_OTHER
 from .send_emails import send_email
 
 
@@ -53,9 +53,14 @@ def run_galaxia(parameterfilepath, outputfilepath):
         cleanup_timeout_task(outputfilepath)
         print(timeout_err)
         result = TASK_TIMEOUT
+
     except Exception as e:
         print(e)
         result = TASK_FAIL
+    # An example of adding in another error (would need to go above Exception above)
+    except TaskRevokedError as revoked_err:
+        print(revoked_err)
+        result = TASK_FAIL_OTHER
     finally:
         return result
 
