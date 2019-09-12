@@ -16,18 +16,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "../static/"),
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
-    # os.path.join(BASE_DIR, "../accounts/static/"),
 ]
 
 ROOT_SUBDIRECTORY_PATH = 'projects/galaxia/live/'
 
 LOGIN_REDIRECT_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'jobs'
 LOGOUT_REDIRECT_URL = '/' + ROOT_SUBDIRECTORY_PATH
-LOGIN_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'accounts/login'
-
 
 STATIC_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'static/'
 SITE_URL = 'https://supercomputing.swin.edu.au/projects/galaxia/live'
+
+
+MEDIA_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'media/'
+
+
+RUN_GALAXIA_COMMAND = ['galaxia', '-r']
 
 try:
     from .local import *

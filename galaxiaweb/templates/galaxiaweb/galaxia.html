@@ -1,5 +1,26 @@
 {% extends 'galaxiaweb/base.html' %}
 
 {% block content %}
-    <h1>This is Galaxia home page!</h1>
+    <div class="static-content">
+        <div class="section text-justify">
+        Galaxia is a publicly available code for generating a synthetic survey out of a theoretical model
+            of the Milky Way. The code outputs a catalog of stars according to user specified color magnitude limits.
+            The present version of the code implements the Besancon analytical model of the galaxy and  the isochrones
+            used are from  the Padova Stellar Evolution database.  A web interface is provided here, the full
+            code can be downloaded from <a href="http://www.galaxia.sourceforge.net">www.galaxia.sourceforge.net</a> .
+        </div>
+        <div class="section text-justify">
+            The code is described in <a href="http://adsabs.harvard.edu/abs/2011ApJ...730....3S">Sharma et al.  2019</a> .  One of the main feature of the code is to
+            generate a continuous distribution of stars over a wide angular area.  The web interface is currently limited to tasks that require less than X minutes.
+            For more intensive jobs please consider decreasing the sampling parameter fSample or download and run the code locally on your computer.
+            The output data is in a special binary format which we call EBF (Efficient and Easy Binary Format) and these files are denoted with .ebf extension.
+            See <a href="http://ebfformat.sourceforge.net/">http://ebfformat.sourceforge.net/</a>   for further information on reading writing ebf file.
+            The details of the output quantities are given <a href="http://galaxia.sourceforge.net/Galaxia3pub.html">here</a>.
+        </div>
+        <div class="section text-justify">
+                The data can be loaded in python using
+            <pre>pip install --user --upgrade git+https://github.com/sanjibs/ebfpy.git@master<br>>> import ebf<br>>> data=ebf.read('galaxy1.ebf','/')<br>>> print data.keys()</pre>
+                </div>
+        </div>
+    </div>
 {% endblock %}

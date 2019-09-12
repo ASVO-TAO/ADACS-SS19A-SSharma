@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'galaxiaweb',
-    'django_hpc_job_controller',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -178,21 +178,34 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'django_hpc_job_controller': {
-            'handlers': ['file', 'mail_admins', 'console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
     },
 }
 
 ROOT_SUBDIRECTORY_PATH = ''
+HTTP_PROTOCOL = 'http'
 
 SITE_URL = ''
 
-HPC_JOB_CLASS = 'galaxiaweb.models.Job'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
-PARAMETER_FILES_DIR = 'parameter_files/'
 
 MEDIA_URL = '/media/'
+
+
+# Celery settings
+
+CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+
+
+
+# GALAXIA Settings
+
+GALAXIA_CODE_DATA_DIR = '/work1/sharma/GsynthData/'
+
+RUN_GALAXIA_COMMAND = ['python', '/home/eman/PycharmProjects/generate-galaxia-output.py']
+
+
+
+
