@@ -18,9 +18,25 @@
                     <script>
                         finished = true;
                     </script>
-                {% elif timeout %}
-                    <p>Your job is taking too long and will be stopped!</p>
-                    <p>Please try again using different parameters. Alternatively, you can download galaxia code from <a href="http://www.galaxia.sourceforge.net">www.galaxia.sourceforge.net</a> and run it locally. </p>
+                {% elif error_code == 2 %}
+                    <p>The code Galaxia was not successful in generating the requested simulation file. </p>
+                    <p>The code has returned with error code  {{ error_code }}: Timeout.</p>
+                    <p>The requested simulation is either too large to be delivered or would take too long to compute.</p>
+                    <p>Please retry with smaller "Stellar Sampling Fraction"/different parameters. </p>
+                    <p> Alternatively, you can download galaxia code from <a href="http://www.galaxia.sourceforge.net">www.galaxia.sourceforge.net</a> and run it locally. </p>
+                    <script>
+                        finished = true;
+                    </script>
+                 {% elif error_code == 1 %}
+                    <p>The code Galaxia was not successful in generating the requested simulation file. </p>
+                    <p>The code has returned with error code  {{ error_code }}: Did not complete the run.</p>
+                    <script>
+                        finished = true;
+                    // example error code message (shouldn't trigger by user)
+                    </script>
+                {% elif error_code == 3 %}
+                    <p>The code Galaxia was not successful in generating the requested simulation file. </p>
+                    <p>The code has returned with error code  {{ error_code }}: We are not sure what that means yet.</p>
                     <script>
                         finished = true;
                     </script>
