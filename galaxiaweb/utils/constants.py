@@ -1,3 +1,7 @@
+"""
+Mapping model field names and values
+"""
+
 SHARMA_2011 = 'Sharma 2011'
 SHARMA_2011_VALUE = 'Model/population_parameters_mptd.ebf'
 SHARMA_2019 = 'Sharma 2019'

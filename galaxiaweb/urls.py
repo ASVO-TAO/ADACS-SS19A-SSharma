@@ -20,7 +20,6 @@ urlpatterns = [
 
 handler404 = common.error_404_view
 
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

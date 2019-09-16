@@ -1,7 +1,6 @@
 # ADACS-SS19A-SSharma
 
 ## Local deployment using Docker
-
 * install docker on local machine 
 * pull from `use_docker` branch
 * download latest version of galaxia from: https://sourceforge.net/projects/galaxia/files/
@@ -20,6 +19,9 @@
 * For changes to be in effect
     * `Ctrl + C` or `$sudo docker-compose down` in the console to stop the containers
     * `$sudo docker-compose up`
+    
+### Galaxia Job Status notification
+* The email address to send notification emails from is preset as `NOTIFICATION_EMAIL_FROM` in `env.env` environment file
 
 ### Adding new error codes
 * add task failure variable (or straight up error code) into constants.py

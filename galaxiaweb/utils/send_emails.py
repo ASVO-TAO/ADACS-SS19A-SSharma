@@ -51,7 +51,7 @@ def send_email(to, job_key, link, output_link, jobstate): #needs url
 
     html_final_content = html_template.render(html_context)
 
-    msg = EmailMultiAlternatives(subject='Your Galaxia Job status', from_email="noreply@swin.edu.au",to=to, body=html_final_content)
+    msg = EmailMultiAlternatives(subject='Your Galaxia Job status', from_email=settings.NOTIFICATION_EMAIL_FROM, to=to, body=html_final_content)
     msg.attach_alternative(txt_template, "html/text")
     msg.send()
 
