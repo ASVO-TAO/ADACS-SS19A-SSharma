@@ -212,8 +212,6 @@ RUN_GALAXIA_COMMAND = ['galaxia', '-r']
 
 GALAXIA_OUTPUT_DIR = os.environ['GALAXIA_OUTPUT_DIR']
 
-# RUN_GALAXIA_COMMAND = ['python', 'generate-galaxia-output.py']
-
 
 
 

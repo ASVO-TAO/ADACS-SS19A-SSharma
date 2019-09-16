@@ -1,24 +1,27 @@
 # ADACS-SS19A-SSharma
 
-## Setup steps
-* clone the repository using `git clone ...`
-* `cd` inside the project directory
-* `pip install -r requirements.txt`
-* `git submodule update --init --recursive` to update django_hpc_job_controller
-* inside the `galaxiaui` directory, create a directory named `logs`
-
 ## Local deployment using Docker
-* pull docker repository from github
-* install docker on local mashine
-* create and activate virtual environment
-* check that docker-compose is installed
-* download latest version of galaxia from: https://sourceforge.net/projects/galaxia/files/
-    * check that the version matches the one being called in the Dockerfile of the project
-    * make folder galaxia under the project folder
-    * drop tar.zip file in galaxia/
-* run $sudo docker-compose up
 
-## Adding new error codes
+* install docker on local machine 
+* pull from `use_docker` branch
+* download latest version of galaxia from: https://sourceforge.net/projects/galaxia/files/
+    * check that the version matches the one being called in the `Dockerfile`:    
+     `RUN tar -zxvf galaxia-X.Y.Z.tar.gz`
+    * make folder `galaxia` under the project folder
+    * drop tar.zip file in `galaxia/`
+* run `$sudo docker-compose up`
+
+### Galaxia job timeout
+* Celery and Rabbitmq are used to run galaxia jobs in separate threads. 
+* Default soft and hard timeout limits are preset(in seconds) in `env.env` file inside project directory
+    * `CELERY_TASK_SOFT_TIME_LIMIT`: 10 mins
+    * `CELERY_TASK_TIME_LIMIT`: 11 mins   
+* `CELERY_TASK_TIME_LIMIT > CELERY_TASK_SOFT_TIME_LIMIT`
+* For changes to be in effect
+    * `Ctrl + C` or `$sudo docker-compose down` in the console to stop the containers
+    * `$sudo docker-compose up`
+
+### Adding new error codes
 * add task failure variable (or straight up error code) into constants.py
 * import said new variable into task.py
 * add a condition to trigger new error code
