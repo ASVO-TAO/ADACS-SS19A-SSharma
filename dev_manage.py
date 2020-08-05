@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 import os
 import sys
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+# load environment file before django settings
+dotenv_path = join(dirname(__file__), 'env.env')
+load_dotenv(dotenv_path)
+
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'galaxiaui.settings.development')
