@@ -107,6 +107,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
+env.env
 .env
 .venv
 env/
@@ -147,4 +148,3 @@ files/*
 !files/.gitkeep
 
 /galaxia
-.env

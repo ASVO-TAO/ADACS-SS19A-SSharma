@@ -9,7 +9,10 @@ env_file = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file_
 dotenv.load_dotenv(env_file)
 
 # set the default Django settings module for the Celery. This is where Celery configuration resides
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'galaxiaui.settings.development')
+if os.getenv('DEBUG'):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'galaxiaui.settings.development')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'galaxiaui.settings.production')
 
 app = Celery('galaxiaui')
 
