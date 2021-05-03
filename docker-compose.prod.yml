@@ -1,0 +1,47 @@
+version: "3"
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    env_file: &envfile
+      - env.prod
+    command: >
+      bash -c "mkdir -p log
+      && python3 manage.py migrate
+      && python3 manage.py collectstatic --noinput
+      && gunicorn galaxiaui.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - ./:/code
+      - ./galaxiaweb/static/:/static/
+      - ./files/:/files/
+    expose:
+      - 8000
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3
+    env_file: *envfile
+    ports:
+      - "5671:5672"
+
+  celery:
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    restart: "no"
+    env_file: *envfile
+    command: celery -A galaxiaui worker -l info
+    volumes:
+      - ./:/code
+      - ./galaxiaweb/static/:/static/
+      - ./files/:/files/
+    depends_on:
+      - rabbitmq
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web

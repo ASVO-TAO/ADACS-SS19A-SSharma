@@ -18,19 +18,20 @@ EMAIL_FROM = 'ssaleheen@swin.edu.au'
 EMAIL_HOST = 'mail.swin.edu.au'
 EMAIL_PORT = 25
 
-STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
+STATIC_ROOT = os.path.join(BASE_DIR, '../static-files/')
 STATICFILES_DIRS = [
-    # os.path.join(BASE_DIR, "../static/"),
+    os.path.join(BASE_DIR, "../static/"),
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
 
 
     # os.path.join(BASE_DIR, "../accounts/static/"),
 ]
 
-ROOT_SUBDIRECTORY_PATH = 'projects/live/galaxia/'
+# ROOT_SUBDIRECTORY_PATH = 'projects/live/galaxia/'
+ROOT_SUBDIRECTORY_PATH = ''
 
 STATIC_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'static/'
-SITE_URL = 'https://supercomputing.swin.edu.au/projects/live/galaxia'
+# SITE_URL = 'https://supercomputing.swin.edu.au/projects/live/galaxia'
 
 
 MEDIA_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'media/'

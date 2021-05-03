@@ -3,3 +3,4 @@ pytz==2018.9
 celery==4.3.0
 django-celery-results==1.1.2
 docker-compose
+gunicorn==20.0.4
