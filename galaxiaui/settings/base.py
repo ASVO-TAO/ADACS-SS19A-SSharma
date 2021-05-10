@@ -129,7 +129,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
 ]
 
-LOG_DIRECTORY = os.path.join(BASE_DIR, '../log')
+# LOG_DIRECTORY = os.path.join(BASE_DIR, '../log')
 
 LOGGING = {
     'version': 1,
