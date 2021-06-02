@@ -1,5 +1,6 @@
 import uuid
 import os
+import stat
 
 from django.db import models
 from django.core.validators import *
@@ -228,6 +229,7 @@ class JobParameter(models.Model):
         with open(parameter_file_path, 'w') as f:
             f.write(content)
             f.writelines('\n')
+
         # save file url to database
         self.parameter_file_url = self.job_key + "/galaxia_param"
         # save file content to database as bytes

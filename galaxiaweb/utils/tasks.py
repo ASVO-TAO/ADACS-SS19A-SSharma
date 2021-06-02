@@ -57,6 +57,7 @@ def run_galaxia(parameterfilepath, outputfilepath):
     """
     result = None
     try:
+        print(f'galaxia param exists: {os.path.exists(parameterfilepath)}')
         # Grabbing galaxia run command from settings (as a list)
         command = settings.RUN_GALAXIA_COMMAND
         # Adding the parameter file path as a command argument
@@ -101,3 +102,4 @@ def send_notification_email(jobstate, address=None, jobKey=None, parameterFileUR
         send_email([address], jobKey, parameterFileURL, outputFileURL, jobstate)
     else:
         print('No email provided')
+
