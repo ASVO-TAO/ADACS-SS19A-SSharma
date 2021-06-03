@@ -6,7 +6,6 @@
 * download latest version of galaxia from: https://sourceforge.net/projects/galaxia/files/
     * check that the version matches the one being called in the `Dockerfile`:    
      `RUN tar -zxvf galaxia-X.Y.Z.tar.gz`
-    * make folder `galaxia` under the project folder
     * drop tar.zip file in `galaxia/`
 * run `$sudo docker-compose up`
 
@@ -21,7 +20,7 @@
     * `$sudo docker-compose up`
     
 ### Galaxia Job Status notification
-* The email address to send notification emails from is preset as `NOTIFICATION_EMAIL_FROM` in `env.env` environment file
+* The email address to send notification emails from is preset as `NOTIFICATION_EMAIL_FROM` in `env.env` for local environment or `env.prod` for production environment
 
 ### Adding new error codes
 * add task failure variable (or straight up error code) into constants.py
@@ -32,3 +31,5 @@
     * add corresponding error code if the variable isn't an error code already
 * write message in job_detail.html to be shown to user upon refresh
 * add custom message to be send to user in send_emails.py
+
+## Production deployment using Docker
