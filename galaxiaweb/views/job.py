@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms.job_parameter import JobParameterForm
 from ..models import JobParameter
-from ..utils.tasks import run_galaxia, send_notification_email, test_task
+from ..utils.tasks import run_galaxia, send_notification_email
 from ..utils.constants import TASK_SUCCESS, TASK_TIMEOUT, TASK_FAIL, TASK_FAIL_OTHER
 from ..utils.send_emails import send_email, get_absolute_site_url
 

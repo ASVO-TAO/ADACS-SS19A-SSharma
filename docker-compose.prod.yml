@@ -9,7 +9,7 @@ services:
     container_name: web
     command: >
       bash -c "dockerize -wait tcp://db:3306 -timeout 360s -wait-retry-interval 5s
-      && mkdir -p galaxiaui/logs
+      && mkdir -p logs
       && python3 manage.py migrate
       && python3 manage.py collectstatic --noinput
       && gunicorn galaxiaui.wsgi:application --bind 0.0.0.0:8000"
@@ -35,7 +35,9 @@ services:
     restart: "no"
     env_file: *envfile
     container_name: celery
-    command: celery -A galaxiaui worker -l info
+    command: >
+      bash -c "mkdir -p logs
+      && celery -A galaxiaui worker -l info"
     volumes:
       - ./galaxiaweb/static/:/static/
       - media_files:/code/files/

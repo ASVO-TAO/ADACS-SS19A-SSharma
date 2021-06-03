@@ -133,7 +133,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
 ]
 
-# LOG_DIRECTORY = os.path.join(BASE_DIR, '../log')
+LOG_DIRECTORY = os.path.join(BASE_DIR, '../logs')
 
 LOGGING = {
     'version': 1,
@@ -161,7 +161,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'galaxiaui.log'),
+            'filename': os.path.join(LOG_DIRECTORY, 'galaxiaui.log'),
             'formatter': 'standard',
             'when': 'midnight',
             'interval': 1,
