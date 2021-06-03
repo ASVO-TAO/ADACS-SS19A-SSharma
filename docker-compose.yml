@@ -10,9 +10,9 @@ services:
     volumes:
       - ./:/code
       - ./galaxiaweb/static/:/static/
-      - ./files/:/files/
+      - ./files/:/code/files/
     ports:
-      - "8050:8000"
+      - "8000:8000"
     depends_on:
       - rabbitmq
 
