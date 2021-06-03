@@ -8,15 +8,11 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 CONN_MAX_AGE = 900  # 15 minutes of persistent connection
 
-EMAIL_FROM = ''
-EMAIL_HOST = 'mail.swin.edu.au'
-EMAIL_PORT = 25
+EMAIL_FROM = os.environ['NOTIFICATION_EMAIL_FROM']
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_PORT = os.environ['EMAIL_PORT']
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-EMAIL_FROM = 'ssaleheen@swin.edu.au'
-EMAIL_HOST = 'mail.swin.edu.au'
-EMAIL_PORT = 25
 
 STATIC_ROOT = os.path.join(BASE_DIR, '../static-files/')
 STATICFILES_DIRS = [
