@@ -71,6 +71,10 @@
   
   `sudo docker-compose -f docker-compose.prod.yml up --detach --build`
 
+* For any changes in config files to be in effect, stop the containers as follows and start them again as in the previous the step
+  
+  `sudo docker-compose -f docker-compose.prod.yml down`
+
 **Note**: Deployment config files used for production environment
   * `env.prod`
   * `docker-compose.prod.yml`
