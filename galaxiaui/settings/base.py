@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ykg4p&0&&utuvv$cr3hz)!fb@5y8q%xj@wh+-27-x6^8l5w%gt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
 ALLOWED_HOSTS = []
 
@@ -187,7 +187,7 @@ LOGGING = {
     },
 }
 
-ROOT_SUBDIRECTORY_PATH = ''
+ROOT_SUBDIRECTORY_PATH = 'galaxia/'
 HTTP_PROTOCOL = 'http'
 
 SITE_URL = ''
