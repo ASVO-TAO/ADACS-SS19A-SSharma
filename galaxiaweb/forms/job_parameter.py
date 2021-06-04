@@ -53,6 +53,7 @@ LABELS = {
     'email': _('Email address')
 }
 
+# add css classes to each field according to its type
 WIDGETS = {
     'model_file': forms.Select(attrs={'class': 'form-control'}),
     'photo_sys_1': forms.Select(attrs={'class': 'form-control'}),
@@ -91,6 +92,11 @@ class JobParameterForm(forms.ModelForm):
         widgets = WIDGETS
 
     def clean(self):
+        """
+        overwrites the default clean behavior before saving field values to model
+        Validate some form fields against each other and push error messages to be displayed in template
+        :return: Cleaned data after validation checks pass
+        """
         cleaned_data = super().clean()
 
         apparent_magnitude_min = cleaned_data.get('apparent_magnitude_min')

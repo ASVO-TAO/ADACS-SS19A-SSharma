@@ -1,28 +1,33 @@
-version: '3'
-
+version: "3"
 services:
-  nginx:
-    image: nginx:latest
-    container_name: ng_galaxia
-    ports:
-      - "8050:8000"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - ./static:/static
-    depends_on:
-      - web
   web:
     build: ./
-    container_name: dg_galaxia
+    env_file: &envfile
+      - env.env
     command: >
-      bash -c "pip install gunicorn
-      && python manage.py makemigrations
-      && python manage.py migrate
-      && python manage.py collectstatic --noinput
-      && gunicorn galaxiaui.wsgi -b 0.0.0.0:8000"
-    ports:
-      - "8000"
+      bash -c "python3 dev_manage.py migrate
+      && python3 dev_manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./:/code
-      - ./static:/static
+      - ./galaxiaweb/static/:/static/
+      - ./files/:/code/files/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - rabbitmq
 
+  rabbitmq:
+    image: rabbitmq:3
+    env_file: *envfile
+    ports:
+      - "5671:5671"
+
+  celery:
+    build: ./
+    restart: "no"
+    env_file: *envfile
+    command: celery -A galaxiaui worker -l info
+    volumes:
+      - ./:/code
+    depends_on:
+      - rabbitmq

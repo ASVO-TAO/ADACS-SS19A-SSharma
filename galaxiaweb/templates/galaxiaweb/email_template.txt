@@ -1,2 +1,0 @@
-'Dear Galaxia User, Your job {{ job_id }} is complete.
-You can download the parameter and output files by following this link: {{ job_link }}'
