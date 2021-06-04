@@ -24,7 +24,3 @@ RUN echo Y | galaxia -s warp; exit 0
 RUN rm -R /code/galaxia/galaxia-0.8.1
 
 WORKDIR /code
-
-
-
-
