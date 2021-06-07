@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ykg4p&0&&utuvv$cr3hz)!fb@5y8q%xj@wh+-27-x6^8l5w%gt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
 ALLOWED_HOSTS = []
 
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'galaxiaweb',
-    'django_hpc_job_controller',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'galaxiaui.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
+        'ENGINE': os.environ.get("DB_ENGINE", "django.db.backends.sqlite3"),
+        'NAME': os.environ.get("MYSQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        'USER': os.environ.get("MYSQL_USER", "user"),
+        'PASSWORD': os.environ.get("MYSQL_PASSWORD", "password"),
+        'HOST': os.environ.get("MYSQL_HOST", "localhost"),
+        'PORT': os.environ.get("DB_PORT", "5432"),
     }
 }
 
@@ -120,7 +124,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, '../static-files/')
 
@@ -128,6 +132,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "../static/"),
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
 ]
+
+LOG_DIRECTORY = os.path.join(BASE_DIR, '../logs')
 
 LOGGING = {
     'version': 1,
@@ -155,7 +161,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'galaxiaui.log'),
+            'filename': os.path.join(LOG_DIRECTORY, 'galaxiaui.log'),
             'formatter': 'standard',
             'when': 'midnight',
             'interval': 1,
@@ -178,21 +184,40 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'django_hpc_job_controller': {
-            'handlers': ['file', 'mail_admins', 'console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
     },
 }
 
-ROOT_SUBDIRECTORY_PATH = ''
+ROOT_SUBDIRECTORY_PATH = 'galaxia/'
+HTTP_PROTOCOL = 'http'
 
 SITE_URL = ''
 
-HPC_JOB_CLASS = 'galaxiaweb.models.Job'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
-PARAMETER_FILES_DIR = 'parameter_files/'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'media/'
+
+STATIC_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'static/'
+
+
+
+
+# Celery settings
+
+CELERY_BROKER_URL = os.environ['CELERY_BROKER']
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+
+# GALAXIA Settings
+
+GALAXIA_CODE_DATA_DIR = os.environ['GALAXIA_CODE_DATA_DIR']
+
+RUN_GALAXIA_COMMAND = ['galaxia', '-r']
+
+GALAXIA_OUTPUT_DIR = os.environ['GALAXIA_OUTPUT_DIR']
+
+NOTIFICATION_EMAIL_FROM = os.environ['NOTIFICATION_EMAIL_FROM']
+
+
+
+

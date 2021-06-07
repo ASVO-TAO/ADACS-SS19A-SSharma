@@ -2,15 +2,60 @@
 {% load static %}
 {% block content %}
     {% get_media_prefix as media_prefix %}
-    <div class="page-header">Your job is submitted!</div>
-    <div class="row">
+    <script>
+    const mytimout = window.setTimeout(function(){
+        location.reload();
+        }, 30000);
+    let finished = false;
+    </script>
+    <div class="row static-content height80vh">
         {% if job.job_key %}
-            <div class="col col-md-2 col-sm-6 col-sx-6 col-12 mb-2"><h5>Job Key</h5></div>
-            {% if job.parameter_file_url %}
-            <a href="{% get_media_prefix %}{{job.parameter_file_url  }}">{{ job.job_key }}</a>
-            {% else %}
-            <div class="col col-md-10 col-sm-6 col-sx-6 col-12 mb-2">{{ job.job_key }}</div>%
-            {% endif %}
+
+            <div class="col col-12">
+                {% if output %}
+                    <p>Your job was submitted and finished successfully</p>
+                    <p>Download output file <a href="{% get_media_prefix %}{{output}}">here</a>.</p>
+                    <script>
+                        finished = true;
+                    </script>
+                {% elif error_code == 2 %}
+                    <p>The code Galaxia was not successful in generating the requested simulation file. </p>
+                    <p>The code has returned with error code  {{ error_code }}: Timeout.</p>
+                    <p>The requested simulation is either too large to be delivered or would take too long to compute.</p>
+                    <p>Please retry with smaller "Stellar Sampling Fraction"/different parameters. </p>
+                    <p> Alternatively, you can download galaxia code from <a href="http://www.galaxia.sourceforge.net">www.galaxia.sourceforge.net</a> and run it locally. </p>
+                    <script>
+                        finished = true;
+                    </script>
+                 {% elif error_code == 1 %}
+                    <p>The code Galaxia was not successful in generating the requested simulation file. </p>
+                    <p>The code has returned with error code  {{ error_code }}: Did not complete the run.</p>
+                    <script>
+                        finished = true;
+                    // example error code message (shouldn't trigger by user)
+                    </script>
+                {% elif error_code == 3 %}
+                    <p>The code Galaxia was not successful in generating the requested simulation file. </p>
+                    <p>The code has returned with error code  {{ error_code }}: We are not sure what that means yet.</p>
+                    <script>
+                        finished = true;
+                    </script>
+                {% else %}
+                    <p>Your job has been submitted! <div><span class="highlighted">The page will reload automatically when output file is ready for download.</span></div></p>
+                {% endif %}
+                {% if job.parameter_file_url %}
+                    <p>Download parameter file <a href="{% get_media_prefix %}{{job.parameter_file_url}}">here</a>.</p>
+                {% endif %}
+                {% if job.email %}
+                    <p>An email will be sent to <b>{{job.email}}</b> notifying of job status.</p>
+                {% endif %}
+            </div>
         {% endif %}
     </div>
-{% endblock %}
+    <script>
+        // check if the job finished successfully or timed out to stop automatic reloading
+        if(finished === true){
+            clearTimeout(mytimout);
+        }
+    </script>
+{% endblock %}`

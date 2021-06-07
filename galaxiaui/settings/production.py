@@ -8,26 +8,17 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 CONN_MAX_AGE = 900  # 15 minutes of persistent connection
 
-EMAIL_FROM = ''
-EMAIL_HOST = 'mail.swin.edu.au'
-EMAIL_PORT = 25
+EMAIL_FROM = os.environ['NOTIFICATION_EMAIL_FROM']
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_PORT = os.environ['EMAIL_PORT']
 
-STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+STATIC_ROOT = os.path.join(BASE_DIR, '../static-files/')
 STATICFILES_DIRS = [
-    # os.path.join(BASE_DIR, "../static/"),
+    os.path.join(BASE_DIR, "../static/"),
     os.path.join(BASE_DIR, "../galaxiaweb/static/"),
-    # os.path.join(BASE_DIR, "../accounts/static/"),
 ]
-
-ROOT_SUBDIRECTORY_PATH = 'projects/galaxia/live/'
-
-LOGIN_REDIRECT_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'jobs'
-LOGOUT_REDIRECT_URL = '/' + ROOT_SUBDIRECTORY_PATH
-LOGIN_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'accounts/login'
-
-
-STATIC_URL = '/' + ROOT_SUBDIRECTORY_PATH + 'static/'
-SITE_URL = 'https://supercomputing.swin.edu.au/projects/galaxia/live'
 
 try:
     from .local import *

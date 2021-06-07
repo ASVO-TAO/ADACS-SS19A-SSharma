@@ -1,39 +1,20 @@
 import uuid
 import os
+import stat
+
 from django.db import models
 from django.core.validators import *
-# from django.core.files.base import File, ContentFile
-# from django.core.files.storage import FileSystemStorage
-from django.utils.timezone import datetime
 from django.conf import settings
-
-from django_hpc_job_controller.models import HpcJob
 
 from .utils.constants import *
 
 
-# Create your models here.
-class Job(HpcJob):
-    """
-    Job model extending HpcJob
-    """
-    creation_time = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now_add=True)
-    json_representation = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return '{}'.format(self.pk)
-
-    def as_json(self):
-        return dict(
-            id=self.id,
-            value=dict(
-                creation_time=self.creation_time.strftime('%d %b %Y %I:%m %p'),
-            ),
-        )
-
-
 class JobParameter(models.Model):
+    """
+    Model to store galaxia job parameters
+    """
+
+    # setting parameter value lists to be used while creating Model Fields
     MODEL_FILE_CHOICES = [
         (SHARMA_2011, SHARMA_2011),
         (SHARMA_2019, SHARMA_2019),
@@ -130,8 +111,6 @@ class JobParameter(models.Model):
         (TYCHO_VT, TYCHO_VT),
     ]
 
-    job = models.ForeignKey(Job, on_delete=models.CASCADE, blank=False, null=False)
-
     model_file = models.CharField(choices=MODEL_FILE_CHOICES, max_length=55, blank=False, null=False,
                                   default=SHARMA_2019)
 
@@ -160,7 +139,7 @@ class JobParameter(models.Model):
                                         default=GAIA_GBP)
 
     geometry_options = models.CharField(choices=GEOMETRY_OPTIONS, max_length=55, blank=False, null=False,
-                                        default=ALL_SKY)
+                                        default=PATCH)
 
     longitude = models.FloatField(blank=False, null=False, default=0,
                                   validators=[MinValueValidator(0), MaxValueValidator(360)]
@@ -186,18 +165,24 @@ class JobParameter(models.Model):
     parameters = models.BinaryField(default=None, null=True)
 
     def save(self, *args, **kwargs):
-
-        self.job_key = datetime.now().strftime('%d-%b-%Y_%H%M')
+        """
+        overwrites default save model behavior
+        """
+        # set the job key to unique uuid4
+        self.job_key = str(uuid.uuid4())
         self.save_parameter_file(self.to_params_dict())
         super().save(*args, **kwargs)
 
     def to_params_dict(self):
-
+        """
+        formats parameters as they should appear in file and save them to a dictionary
+        :return: dictionary holds job parameters with parameters names(as they appear in parameter file)as keys
+        """
         params_dict = dict()
-        params_dict['outputFile'] = f"galaxia_{self.job_key}"
+        params_dict['outputFile'] = 'galaxia_output'
         params_dict['modelFile'] = NAME_VALUES[self.model_file]
-        params_dict['codeDataDir'] = '/work1/sharma/GsynthData/'
-        params_dict['outputDir'] = './'
+        params_dict['codeDataDir'] = settings.GALAXIA_CODE_DATA_DIR
+        params_dict['outputDir'] = f'{settings.GALAXIA_OUTPUT_DIR}{self.job_key}/'
         params_dict['photoSys'] = '{}/{}'.format(NAME_VALUES[self.photo_sys_1], NAME_VALUES[self.photo_sys_2])
         params_dict['magcolorNames'] = '{},{},{}'.format(NAME_VALUES[self.magnitude_name],
                                                          NAME_VALUES[self.magnitude_name_1],
@@ -223,24 +208,31 @@ class JobParameter(models.Model):
         return params_dict
 
     def save_parameter_file(self, params_dict):
-
+        """
+        saves parameters files to filesystem
+        :param params_dict: dictionary of parameters names and values
+        """
+        # format dictionary keys and values in a string
         content_list = [f"{key.ljust(40)}{value}" for (key, value) in params_dict.items()]
-        # content_list = [f"{key:<40}{value}" for (key, value) in params_dict.items()]
         content = "\n".join(content_list)
         content += "\n"
 
-        storage_location = os.path.join(settings.MEDIA_ROOT, settings.PARAMETER_FILES_DIR, self.job_key)
+        # path where the file is saved: media_root/job_key
+        storage_location = os.path.join(settings.MEDIA_ROOT, self.job_key)
+        # create directory
+        if not os.path.exists(storage_location):
+            os.makedirs(storage_location)
+        # name parameter file
+        parameter_file_path = os.path.join(storage_location, 'galaxia_param')
 
-        with open(storage_location, 'w') as f:
-            # myfile = File(f)
+        # write parameters string to file
+        with open(parameter_file_path, 'w') as f:
             f.write(content)
             f.writelines('\n')
 
-        # storage_location = os.path.join(settings.MEDIA_ROOT, settings.PARAMETER_FILES_DIR)
-        # file = ContentFile(content)
-        # fs = FileSystemStorage(location=storage_location)
-        # fs.save(str(self.job_key), file)
-        self.parameter_file_url = settings.PARAMETER_FILES_DIR + self.job_key
+        # save file url to database
+        self.parameter_file_url = self.job_key + "/galaxia_param"
+        # save file content to database as bytes
         self.parameters = bytes(content, encoding='utf-8')
 
 
