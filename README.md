@@ -64,7 +64,10 @@
   chmod 775 -R <dir_name>
   cd ADACS-SS19A-SSharma
   ```
-* Change email and db settings in `ADACS-SS19A-SSharma/env.prod` 
+* Change the following settings in `ADACS-SS19A-SSharma/env.prod` 
+  * Email settings
+  * DB settings
+  * Django secret key
 * Copy/download galaxia executable in to `ADACS-SS19A-SSharma/galaxia/`
 * Make sure galaxia executable file name is matching the name in `ADACS-SS19A-SSharma/Dockerfile.celery`
 * Start the container

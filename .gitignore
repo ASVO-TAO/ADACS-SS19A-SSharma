@@ -150,4 +150,4 @@ galaxia/*
 !galaxia/.gitkeep
 static-files/*
 static/*
-
+!static/.gitkeep
