@@ -1,7 +1,12 @@
 from __future__ import absolute_import, unicode_literals
 import os
 
+import logging
+
 from celery import Celery
+
+
+logger = logging.getLogger(__name__)
 
 # set the default Django settings module for the Celery. This is where Celery configuration resides
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'galaxiaui.settings.development')
@@ -22,4 +27,4 @@ app.conf.update(
 
 @app.task(bind=True)
 def debug_task(self):
-    print('Request: {0!r}'.format(self.request))
+    logger.debug('Request: {0!r}'.format(self.request))

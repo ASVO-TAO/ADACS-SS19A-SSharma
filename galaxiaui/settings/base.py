@@ -9,10 +9,12 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+import logging
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import sys
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -154,7 +156,7 @@ LOGGING = {
     'handlers': {
         'console': {
             'level': 'INFO',
-            'filters': ['require_debug_true'],
+            # 'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
             'formatter': 'standard',
         },
@@ -182,6 +184,11 @@ LOGGING = {
         'galaxiaweb': {
             'handlers': ['file', 'mail_admins', 'console'],
             'level': 'INFO',
+            'propagate': True,
+        },
+        '*excepthook*': {
+            'handlers': ['file', 'console'],
+            'level': 'CRITICAL',
             'propagate': True,
         },
     },
@@ -219,5 +226,8 @@ GALAXIA_OUTPUT_DIR = os.environ['GALAXIA_OUTPUT_DIR']
 NOTIFICATION_EMAIL_FROM = os.environ['NOTIFICATION_EMAIL_FROM']
 
 
+def exception_hook(type, value, traceback):
+    logging.getLogger("*excepthook*").critical(f"Uncaught exception!", exc_info=(type, value, traceback))
 
+sys.excepthook = exception_hook
 

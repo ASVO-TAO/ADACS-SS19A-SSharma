@@ -1,12 +1,15 @@
 import uuid
 import os
-import stat
+# import stat
+import logging
 
 from django.db import models
 from django.core.validators import *
 from django.conf import settings
 
 from .utils.constants import *
+
+logger = logging.getLogger(__name__)
 
 
 class JobParameter(models.Model):
@@ -168,75 +171,84 @@ class JobParameter(models.Model):
         """
         overwrites default save model behavior
         """
-        # set the job key to unique uuid4
-        self.job_key = str(uuid.uuid4())
-        self.save_parameter_file(self.to_params_dict())
-        super().save(*args, **kwargs)
+        try:
+            # set the job key to unique uuid4
+            self.job_key = str(uuid.uuid4())
+            self.save_parameter_file(self.to_params_dict())
+            super().save(*args, **kwargs)
+            logger.info(f'Job {self.job_key} saved')
+        except Exception as exp:
+            logger.exception(f"Unexpected error: {exp}", exc_info=1)
+            raise
 
     def to_params_dict(self):
         """
         formats parameters as they should appear in file and save them to a dictionary
         :return: dictionary holds job parameters with parameters names(as they appear in parameter file)as keys
         """
-        params_dict = dict()
-        params_dict['outputFile'] = 'galaxia_output'
-        params_dict['modelFile'] = NAME_VALUES[self.model_file]
-        params_dict['codeDataDir'] = settings.GALAXIA_CODE_DATA_DIR
-        params_dict['outputDir'] = f'{settings.GALAXIA_OUTPUT_DIR}{self.job_key}/'
-        params_dict['photoSys'] = '{}/{}'.format(NAME_VALUES[self.photo_sys_1], NAME_VALUES[self.photo_sys_2])
-        params_dict['magcolorNames'] = '{},{},{}'.format(NAME_VALUES[self.magnitude_name],
-                                                         NAME_VALUES[self.magnitude_name_1],
-                                                         NAME_VALUES[self.magnitude_name_2])
-        params_dict['appMagLimits[0]'] = self.apparent_magnitude_min
-        params_dict['appMagLimits[1]'] = self.apparent_magnitude_max
-        params_dict['absMagLimits[0]'] = self.absolute_magnitude_min
-        params_dict['absMagLimits[1]'] = self.absolute_magnitude_max
-        params_dict['colorLimits[0]'] = self.colour_limit_min
-        params_dict['colorLimits[1]'] = self.colour_limit_max
-        params_dict['geometryOption'] = NAME_VALUES[self.geometry_options]
-        params_dict['longitude'] = self.longitude
-        params_dict['latitude'] = self.latitude
-        params_dict['starType'] = '0'
-        params_dict['photoError'] = '0'
-        params_dict['surveyArea'] = self.survey_area
-        params_dict['fSample'] = self.sample_fraction
-        params_dict['popID'] = NAME_VALUES[self.population_ID]
-        params_dict['warpFlareOn'] = '1' if self.warp_flare else '0'
-        params_dict['seed'] = self.seed
-        params_dict['r_max'] = self.r_max
+        try:
+            params_dict = dict()
+            params_dict['outputFile'] = 'galaxia_output'
+            params_dict['modelFile'] = NAME_VALUES[self.model_file]
+            params_dict['codeDataDir'] = settings.GALAXIA_CODE_DATA_DIR
+            params_dict['outputDir'] = f'{settings.GALAXIA_OUTPUT_DIR}{self.job_key}/'
+            params_dict['photoSys'] = '{}/{}'.format(NAME_VALUES[self.photo_sys_1], NAME_VALUES[self.photo_sys_2])
+            params_dict['magcolorNames'] = '{},{},{}'.format(NAME_VALUES[self.magnitude_name],
+                                                             NAME_VALUES[self.magnitude_name_1],
+                                                             NAME_VALUES[self.magnitude_name_2])
+            params_dict['appMagLimits[0]'] = self.apparent_magnitude_min
+            params_dict['appMagLimits[1]'] = self.apparent_magnitude_max
+            params_dict['absMagLimits[0]'] = self.absolute_magnitude_min
+            params_dict['absMagLimits[1]'] = self.absolute_magnitude_max
+            params_dict['colorLimits[0]'] = self.colour_limit_min
+            params_dict['colorLimits[1]'] = self.colour_limit_max
+            params_dict['geometryOption'] = NAME_VALUES[self.geometry_options]
+            params_dict['longitude'] = self.longitude
+            params_dict['latitude'] = self.latitude
+            params_dict['starType'] = '0'
+            params_dict['photoError'] = '0'
+            params_dict['surveyArea'] = self.survey_area
+            params_dict['fSample'] = self.sample_fraction
+            params_dict['popID'] = NAME_VALUES[self.population_ID]
+            params_dict['warpFlareOn'] = '1' if self.warp_flare else '0'
+            params_dict['seed'] = self.seed
+            params_dict['r_max'] = self.r_max
 
-        return params_dict
+            return params_dict
+        except Exception as exp:
+            logger.exception(f"Unexpected error: {exp}", exc_info=1)
+            raise
 
     def save_parameter_file(self, params_dict):
         """
         saves parameters files to filesystem
         :param params_dict: dictionary of parameters names and values
         """
-        # format dictionary keys and values in a string
-        content_list = [f"{key.ljust(40)}{value}" for (key, value) in params_dict.items()]
-        content = "\n".join(content_list)
-        content += "\n"
+        try:
+            # format dictionary keys and values in a string
+            content_list = [f"{key.ljust(40)}{value}" for (key, value) in params_dict.items()]
+            content = "\n".join(content_list)
+            content += "\n"
 
-        # path where the file is saved: media_root/job_key
-        storage_location = os.path.join(settings.MEDIA_ROOT, self.job_key)
-        # create directory
-        if not os.path.exists(storage_location):
-            os.makedirs(storage_location)
-        # name parameter file
-        parameter_file_path = os.path.join(storage_location, 'galaxia_param')
+            # path where the file is saved: media_root/job_key
+            storage_location = os.path.join(settings.MEDIA_ROOT, self.job_key)
+            # create directory
+            if not os.path.exists(storage_location):
+                os.makedirs(storage_location)
+            # name parameter file
+            parameter_file_path = os.path.join(storage_location, 'galaxia_param')
 
-        # write parameters string to file
-        with open(parameter_file_path, 'w') as f:
-            f.write(content)
-            f.writelines('\n')
+            # write parameters string to file
+            with open(parameter_file_path, 'w') as f:
+                f.write(content)
+                f.writelines('\n')
 
-        # save file url to database
-        self.parameter_file_url = self.job_key + "/galaxia_param"
-        # save file content to database as bytes
-        self.parameters = bytes(content, encoding='utf-8')
+            # save file url to database
+            self.parameter_file_url = self.job_key + "/galaxia_param"
+            # save file content to database as bytes
+            self.parameters = bytes(content, encoding='utf-8')
+            logger.info(f'Job {self.job_key} : parameter file saved successfully at {parameter_file_path}')
 
-
-
-
-
-
+        except Exception as exp:
+            logger.exception(f"Unexpected error: {exp}", exc_info=1)
+            raise

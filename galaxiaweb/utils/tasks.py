@@ -6,11 +6,14 @@ import os
 import glob
 import subprocess
 
+import logging
+
 from django.conf import settings
 
 from .constants import TASK_TIMEOUT, TASK_SUCCESS, TASK_FAIL , TASK_FAIL_OTHER
 from .send_emails import send_email
 
+logger = logging.getLogger(__name__)
 
 def cleanup_timeout_task(outputfilepath):
     """
@@ -21,7 +24,7 @@ def cleanup_timeout_task(outputfilepath):
     try:
         # get output directory name
         dirname = os.path.dirname(outputfilepath)
-        print(f'Cleaning up {dirname}')
+        logger.info(f'Cleaning up {dirname}')
         # get list of temp files in the output directory
         tmpfiles = glob.glob(os.path.join(dirname, '*galaxia_*ebf.tmp*'))
         # delete files
@@ -29,7 +32,8 @@ def cleanup_timeout_task(outputfilepath):
             if os.path.isfile(f):
                 os.remove(f)
     except Exception as e:
-        print(e)
+        logger.exception(f"Unhandled exception: {e}", exc_info=1)
+        raise
 
 
 def check_output_file_generated(outputfilepath):
@@ -39,11 +43,15 @@ def check_output_file_generated(outputfilepath):
     :param outputfilepath: full path of output file
     :return:
     """
-    created = False
-    # keep checking until output file is generated
-    while not created:
-        created = os.path.exists(outputfilepath)
-    return TASK_SUCCESS
+    try:
+        created = False
+        # keep checking until output file is generated
+        while not created:
+            created = os.path.exists(outputfilepath)
+        return TASK_SUCCESS
+    except Exception as e:
+        logger.exception(f"Unhandled exception: {e}", exc_info=1)
+        return TASK_FAIL
 
 
 @shared_task
@@ -57,7 +65,7 @@ def run_galaxia(parameterfilepath, outputfilepath):
     """
     result = None
     try:
-        print(f'galaxia param exists: {os.path.exists(parameterfilepath)}')
+        logger.info(f'galaxia param exists: {os.path.exists(parameterfilepath)}')
         # Grabbing galaxia run command from settings (as a list)
         command = settings.RUN_GALAXIA_COMMAND
         # Adding the parameter file path as a command argument
@@ -70,7 +78,7 @@ def run_galaxia(parameterfilepath, outputfilepath):
     except SoftTimeLimitExceeded as timeout_err:
         # If job timed out, clean up output directory
         cleanup_timeout_task(outputfilepath)
-        print(timeout_err)
+        logger.exception(f"SoftTimeLimitExceeded exception: {timeout_err}", exc_info=1)
         result = TASK_TIMEOUT
 
     except Exception as e:
@@ -79,7 +87,7 @@ def run_galaxia(parameterfilepath, outputfilepath):
         result = TASK_FAIL
     # An example of adding in another error (would need to go above Exception above)
     except TaskRevokedError as revoked_err:
-        print(revoked_err)
+        logger.exception(f"TaskRevokedError: {revoked_err}", exc_info=1)
         result = TASK_FAIL_OTHER
     finally:
         return result
@@ -96,10 +104,14 @@ def send_notification_email(jobstate, address=None, jobKey=None, parameterFileUR
     :param outputFileURL: output file URL to appear in the email
     :return:
     """
-    print(f'Run Galaxia: {jobstate}')
-    # send email only if address was submitted
-    if address:
-        send_email([address], jobKey, parameterFileURL, outputFileURL, jobstate)
-    else:
-        print('No email provided')
+    try:
+        logger.info(f'Run Galaxia: {jobstate}')
+        # send email only if address was submitted
+        if address:
+            send_email([address], jobKey, parameterFileURL, outputFileURL, jobstate)
+        else:
+            logger.info('No email provided')
+    except Exception as e:
+        logger.exception(f"Unhandled exception: {e}", exc_info=1)
+        raise
 
