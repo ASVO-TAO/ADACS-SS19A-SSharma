@@ -11,6 +11,7 @@
   
 * Change email settings in `env.env`
 * run `$sudo docker-compose up`
+* Access the app at http://localhost:8000/galaxia/
 
 **Note**: Deployment config files used for local development purposes:
   * `env.env`
@@ -71,8 +72,10 @@
 * Copy/download galaxia executable in to `ADACS-SS19A-SSharma/galaxia/`
 * Make sure galaxia executable file name is matching the name in `ADACS-SS19A-SSharma/Dockerfile.celery`
 * Start the container
-  
+
   `sudo docker-compose -f docker-compose.prod.yml up --detach --build`
+  
+* Visit the app at http://<server-ip>:8000/galaxia/
 
 * For any changes in config files to be in effect, stop the containers as follows and start them again as in the previous the step
   
