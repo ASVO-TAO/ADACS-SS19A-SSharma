@@ -75,7 +75,7 @@
 
   `sudo docker-compose -f docker-compose.prod.yml up --detach --build`
   
-* Visit the app at http://<server-ip>:8000/galaxia/
+* Visit the app at http://*`server-ip`*:8000/galaxia/
 
 * For any changes in config files to be in effect, stop the containers as follows and start them again as in the previous the step
   
